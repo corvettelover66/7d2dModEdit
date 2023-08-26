@@ -1,0 +1,35 @@
+﻿<Window x:Class="SevenDaysToDieModCreator.Views.DirectEditView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+
+        xmlns:local="clr-namespace:SevenDaysToDieModCreator.Views"
+        mc:Ignorable="d"
+        Title="Direct File Editor">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <DockPanel>
+                <Menu DockPanel.Dock="Top" FontSize="20" Height="23">
+                    <MenuItem Name="SaveXmlButton" Click="SaveXmlButton_Click" Header="_Save" FontSize="15"/>
+                    <MenuItem Name="ReloadFileXmlButton" Click="ReloadFileXmlButton_Click" Header="_Reload File" FontSize="15"/>
+                    <MenuItem Name="UndoAllChangesXmlButton" Click="UndoAllChangesXmlButton_Click" Header="_Undo All" FontSize="15"/>
+                    <MenuItem Name="CloseButton" Click="CloseButton_Click" Header="_Close" FontSize="15"/>
+                    <MenuItem Name="ValidateXmlButton" Click="ValidateXmlButton_Click" Header="_Validate" FontSize="15"/>
+                    <MenuItem Name="CombineTagsXmlButton" Click="CombineTagsXmlButton_Click" Header="Com_bine" FontSize="15"/>
+                    <MenuItem Name="CodeCompletionKeysHelpButton" Click="CodeCompletionKeys_Click" Header="AC _Help" FontSize="15"/>
+                </Menu>
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <avalonedit:TextEditor SyntaxHighlighting="XML" x:Name="XmlOutputBox" FontSize="20">
+            </avalonedit:TextEditor>
+        </Grid>
+    </Grid>
+</Window>

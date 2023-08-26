@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SevenDaysToDieModCreator": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\Workspaces\\SevenDaysToDieModCreator\\SevenDaysToDieModCreator\\obj\\Debug"
+    }
+  }
+}

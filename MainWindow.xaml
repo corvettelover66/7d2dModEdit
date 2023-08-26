@@ -1,0 +1,261 @@
+﻿<Window x:Class="SevenDaysToDieModCreator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:local="clr-namespace:SevenDaysToDieModCreator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="{Binding SystemParameters.PrimaryScreenHeight}" Width="{Binding SystemParameters.PrimaryScreenHeight}">
+    <!-- Background="Bisque" -->
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="26"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" VerticalAlignment="Top">
+            <DockPanel>
+                <Menu DockPanel.Dock="Top" FontSize="16">
+                    <MenuItem Header="_File">
+                        <MenuItem Header="_Load Game File(s)" Name="LoadFileMenuItem" Click="LoadFile_Click"/>
+                        <MenuItem Header="Load _Mod" Name="LoadModDirectoryMenuItem" Click="LoadModDirectoryMenuItem_Click"/>
+                        <!--<MenuItem Header="Load Mods _Directory" Name="LoadGameModDirectoryMenuItem" Click="LoadGameModDirectoryMenuItem_Click"/>-->
+                        <MenuItem Header="_Save All" Name="SaveFileMenuItem" Click="SaveXmlFile_Click"/>
+                        <MenuItem Header="Stage _All" Name="MoveFileMenuItem" Click="MoveFileMenuHeader_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="_Tools">
+                        <MenuItem Header="_Create/Edit Mod" Name="CreateEditModInfoMenuItem" Click="CreateEditModInfoMenuItem_Click" />
+                        <MenuItem Header="Open Locali_zation" Name="OpenLocalizationMenuItem"  Click="OpenLocalizationMenuItem_Click" />
+                        <MenuItem Header="_Validate Mod Files" Name="ValidateXmlMenuItem" Click="ValidateXmlMenuItem_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="S_ettings">
+                        <MenuItem Header="A_uto Move" Name="AutoMoveMenuItem"  Click="ChangeAutoMoveMenuItem_Click" />
+                        <MenuItem Header="Auto Move Director_y" Name="ChangeModGameDirectoryMenu" Click="ChangeModGameDirectoryMenu_Click"/>
+                        <MenuItem Header="T_imestamp" Name="ChangeLogTimeStampMenuItem"  Click="ChangeLogTimeStampMenuItem_Click" />
+                        <MenuItem Header="Chec_k All Settings" Name="CheckAllSettingsMenuItem"  Click="CheckAllSettingsMenuItem_Click" />
+                    </MenuItem>
+                    <MenuItem Header="Theme">
+                        <MenuItem Header="Light" Name="NormalThemeMenuItem" Click="NormalThemeMenuItem_Click" />
+                        <MenuItem Header="Medium" Name="MediumThemeMenuItem" Click="MediumThemeMenuItem_Click"/>
+                        <MenuItem Header="Dark" Name="DarkThemeMenuItem" Click="DarkThemeMenuItem_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="_Help" Name="HelpMenuItem"  Click="HelpMenu_Click"/>
+                </Menu>
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Row="1" Height="Auto" VerticalAlignment="Top" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="800*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="350*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" VerticalAlignment="Top" >
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <ComboBox Name="NewObjectViewLoadedFilesComboBox" HorizontalContentAlignment="Center" FontSize="20" ></ComboBox>
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <CheckBox x:Name="IncludeAllModsInBoxesCheckBox" Content="Include All Mods" IsChecked="False" FontSize="16" />
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Button x:Name="AddObjectViewButton" Click="AddObjectView_Click" FontSize="18">Add New Object</Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1"  VerticalAlignment="Top">
+                        <ScrollViewer Name="NewObjectScrollView" HorizontalContentAlignment="Right"  VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid Grid.Row="2" VerticalAlignment="Bottom" >
+                        <StackPanel>
+                            <Button x:Name="ClearAllObjectsViewButton" Click="ClearAllObjectView_Click" FontSize="18">Clear View</Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+            <Grid Grid.Column="2" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <ComboBox Name="LoadedModsCenterViewComboBox" FontSize="24" HorizontalContentAlignment="Center"/>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Button x:Name="LoadedModsCenterViewLockButton" Click="LoadedModsCenterViewLockButton_Click" FontSize="18" ></Button>
+                            </Grid>
+                            <Grid Grid.Column="2">
+                                <Button x:Name="DeleteModButton" Click="DeleteModButton_Click" Content="Delete Mod" FontSize="18" Grid.RowSpan="2"></Button>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Button x:Name="ReloadModOutputFolderButton" Click="ReloadModOutputFolderButton_Click" Content="_Reload Mods" FontSize="18"></Button>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Button x:Name="OpenModsOutputFolderButton" Click="OpenModsOutputFolderMenuItem_Click" FontSize="18">O_pen Mods Folder</Button>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <ComboBox Name="LoadedModFilesCenterViewComboBox" FontSize="20" HorizontalContentAlignment="Center" />
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Button x:Name="OpenModFileDirectEditViewButton" Click="OpenDirectEditModXmlViewButton_Click" FontSize="18">_Open Direct Editor Window</Button>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Button x:Name="DeleteModFileDirectEditViewButton" Click="DeleteModFileXmlViewButton_Click" FontSize="18">_Delete File</Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <avalonedit:TextEditor SyntaxHighlighting="XML" x:Name="XmlOutputBox" FontSize="20">
+                    </avalonedit:TextEditor>
+                </Grid>
+                <Grid Grid.Row="2" VerticalAlignment="Bottom">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <ComboBox Name="CurrentGameFilesCenterViewComboBox" FontSize="20" HorizontalContentAlignment="Center" />
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Button x:Name="OpenGameFileDirectEditViewButton" Click="OpenDirectEditGameXmlViewButton_Click" FontSize="18">Open Direct Editor Window</Button>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Button x:Name="SaveXmlViewButton" Click="SaveXmlFile_Click" FontSize="18" >_Save All XML</Button>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Button x:Name="Stage_AllViewButton" Click="MoveFileMenuHeader_Click" FontSize="18" >Stage _All Files</Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" />
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <StackPanel Name="SearchViewModSelectionPanel">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <ComboBox Name="SearchTreeLoadedFilesComboBox" FontSize="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></ComboBox>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <CheckBox x:Name="IncludeChildrenInOnHoverCheckBox" Content="Include Children" IsChecked="False" FontSize="16" />
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <CheckBox x:Name="IncludeCommentsCheckBox" Content="Include Comments" IsChecked="False" FontSize="16"  />
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <CheckBox x:Name="IgnoreAllAttributesCheckBox" Content="Ignore All on Copy" IsChecked="False" FontSize="16"  />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Button x:Name="AddNewTreeViewButton"  Click="AddNewSearchTreeView_Click" FontSize="18" HorizontalContentAlignment="Center">Add Game Search Tree</Button>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <ComboBox Name="LoadedModsSearchViewComboBox" FontSize="20" HorizontalContentAlignment="Center"></ComboBox>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Button x:Name="LoadedModsSearchViewLockButton" Click="LoadedModsSearchViewLockButton_Click" FontSize="18" ></Button>
+                            </Grid>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" VerticalAlignment="Top">
+                    <ScrollViewer Name="SearchObjectScrollViewer" HorizontalContentAlignment="Right" HorizontalScrollBarVisibility="Auto">
+                    </ScrollViewer>
+                </Grid>
+                <Grid Grid.Row="2" VerticalAlignment="Bottom">
+                    <StackPanel>
+                        <Button x:Name="ClearTreesViewButton" Click="ClearAllTreesView_Click" FontSize="18" Content="Clear View"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
