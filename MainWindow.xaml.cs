@@ -1,4 +1,5 @@
-﻿using ICSharpCode.AvalonEdit.Search;
+﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Search;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SevenDaysToDieModCreator.Controllers;
 using SevenDaysToDieModCreator.Extensions;
@@ -563,17 +564,14 @@ namespace SevenDaysToDieModCreator
                 {
                     MessageBox.Show(
                         "The was an error opening the selected file.\n\n" +
-                        "There are a couple of possible issues:\n" +
-                        "One issue can be invalid xml for the file you are trying to open. You can validate the xml using the \"Tools\" Menu Option and fix any errors in an external editor. " +
-                        "Note, after fixing any errors in the xml be sure to click the \"Reload Mods Button\" to refresh the loaded objects.\n\n" +
-                        "The other issue could be an invalid or missing game file matching the mod file you are trying to open. To fix this issue simple load the game xml file for the file you are trying to load. " +
-                        "For example, if you are trying to open the recipes.xml file for a mod, load the game recipes.xml file and this will work, even with invalid xml in your mod.",
+                        "The issue could be an invalid or missing game file matching the mod file you are trying to open. To fix this issue simple load the game xml file for the file you are trying to load. " +
+                        "For example, if you are trying to open the recipes.xml file for a mod, load the game recipes.xml file and this will work.",
                         "File Loading Error!",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                     return;
                 }
-
+                wrapperForDirectEditWindow = gameFileWrapper;
             }
 
             List<DirectEditView> openDirectEditViews = this.OpenDirectEditWindows.GetValueOrDefault(modFileXmlWrapperKey);
@@ -599,6 +597,7 @@ namespace SevenDaysToDieModCreator
         {
             string selectedObject = CurrentGameFilesCenterViewComboBox.Text;
             if (String.IsNullOrEmpty(selectedObject)) return;
+
             //Try to grab the default wrapper
             XmlObjectsListWrapper selectedWrapper = MainWindowFileController.LoadedListWrappers.GetValueOrDefault(selectedObject);
             //If it is null there is an issue with the game file and the file has not been loaded or is invalid.
@@ -612,9 +611,10 @@ namespace SevenDaysToDieModCreator
                 string fileLocationPath = XmlFileManager.LoadedFilesPath;
                 bool isGameFile = true;
                 //Just run as normal and add it to the dictionary
-                if (openDirectEditViews == null)
+                if (openDirectEditViews == null || openDirectEditViews.Count == 0)
                 {
                     DirectEditView directEdit = new DirectEditView(selectedWrapper, selectedObject, isGameFile: isGameFile, fileLocationPath: fileLocationPath);
+                    
                     directEdit.Closed += DirectEdit_Closed;
                     directEdit.Show();
                     List<DirectEditView> newOpenDirectEditViewList = new List<DirectEditView>();
@@ -757,28 +757,17 @@ namespace SevenDaysToDieModCreator
         private void ValidateXmlMenuItem_Click(object sender, RoutedEventArgs e)
         {
             string modOutputPath = XmlFileManager.Get_ModOutputPath(Properties.Settings.Default.ModTagSetting);
-            string[] modOutputFiles = Directory.GetFiles(modOutputPath);
             StringBuilder builder = new StringBuilder();
-            foreach (string modFile in modOutputFiles)
+
+            builder.Append(MainWindowFileController.ValidateModFiles(modOutputPath));
+            foreach (string xuiFolder in XmlFileManager.Xui_Folders) 
             {
-                string isInvalid = XmlXpathGenerator.ValidateXml(XmlFileManager.ReadExistingFile(modFile));
-                //The xml is valid
-                if (isInvalid == null)
-                {
-                    builder.AppendLine("File: " + Path.GetFileName(modFile));
-                    builder.AppendLine("Valid");
-                }
-                else 
-                {
-                    builder.Insert(0, isInvalid);
-                    builder.Insert(0, "File: " + Path.GetFileName(modFile) + "\n");
-                }
+                 builder.Append(MainWindowFileController.ValidateModFiles(modOutputPath,xuiFolder));
             }
             builder.Insert(0, "All files: \n");
             builder.Insert(0, "Xml Validation for mod " + Properties.Settings.Default.ModTagSetting + "\n\n");
-            //Remove the trailing newline
-            builder.Remove(builder.Length - 2, 2);
-            MessageBox.Show(builder.ToString(), "Xml Validation", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            MessageBox.Show(builder.ToString().Trim(), "Xml Validation", MessageBoxButton.OK, MessageBoxImage.Information);
             this.MainWindowFileController.LoadCustomTagWrappers(Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
         }
         private void CreateEditModInfoMenuItem_Click(object sender, RoutedEventArgs e)

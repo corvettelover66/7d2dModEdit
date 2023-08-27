@@ -36,6 +36,7 @@ namespace SevenDaysToDieModCreator.Views
         public DirectEditView(XmlObjectsListWrapper wrapperToUse, string dictionaryKey, bool isGameFile, bool isFirstWindowOpen = true, string title = null, string contentsForXmlOutputBox = null, string fileLocationPath = "", string unchangedStartingFileContents = null)
         {
             InitializeComponent();
+            InitFindAndReplace();
             this.Wrapper = wrapperToUse;
             this.IsGameFile = isGameFile;
             this.FileLocationPath = fileLocationPath;
@@ -67,8 +68,6 @@ namespace SevenDaysToDieModCreator.Views
             this.CodeCompletionKeysHelpButton.AddToolTip("Click here to see the keys used for\nAuto Complete within this window");
             this.CombineTagsXmlButton.AddToolTip("Click here to combine all top level APPEND tags, into a single APPEND tag.\n" +
                                                "EX: In the file there are completly new RECIPES under seperate APPEND tags that can be combined.");
-
-            SearchPanel.Install(XmlOutputBox);
 
             FoldingManager = FoldingManager.Install(this.XmlOutputBox.TextArea);
             FoldingStrategy = new XmlFoldingStrategy
@@ -103,6 +102,18 @@ namespace SevenDaysToDieModCreator.Views
             this.XmlOutputBox.Focus();
             SetBackgroundColor();
             Closing += new CancelEventHandler(DirectEditView_Closing);
+        }
+
+        private void InitFindAndReplace() 
+        {
+            FindReplace.FindReplaceMgr FRM = new FindReplace.FindReplaceMgr();
+            FRM.CurrentEditor = new FindReplace.TextEditorAdapter(XmlOutputBox);
+            FRM.ShowSearchIn = false;
+            FRM.OwnerWindow = this;
+
+            CommandBindings.Add(FRM.FindBinding);
+            CommandBindings.Add(FRM.ReplaceBinding);
+            CommandBindings.Add(FRM.FindNextBinding);
         }
 
         private void SetBackgroundColor()

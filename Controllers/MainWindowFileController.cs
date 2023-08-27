@@ -5,7 +5,11 @@ using SevenDaysToDieModCreator.Models;
 using SevenDaysToDieModCreator.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Security.Policy;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -276,6 +280,35 @@ namespace SevenDaysToDieModCreator.Controllers
             }
             return wrapper;
         }
+
+        public static String ValidateModFiles(string modOutputPath, string xuiFolder = "") 
+        {
+            string modFolderDirectory = Path.Combine(modOutputPath, xuiFolder);
+            if (Directory.Exists(modFolderDirectory) == false) return "";
+
+            string[] modFiles = Directory.GetFiles(modFolderDirectory);
+            StringBuilder builder = new StringBuilder();
+            foreach (string modFile in modFiles)
+            {
+                if (modFile.EndsWith(".txt")) continue;
+                string validationError = XmlXpathGenerator.ValidateXml(XmlFileManager.ReadExistingFile(modFile));
+                builder.Append("File: ");
+                if (string.IsNullOrEmpty(xuiFolder) == false) builder.Append(xuiFolder + '/');
+                builder.Append(Path.GetFileName(modFile) + "\n");
+                //The xml is valid
+                if (validationError == null)
+                {
+                    builder.AppendLine("Valid");
+                    builder.AppendLine("");
+                }
+                else
+                {
+                    builder.AppendLine("In-Valid");
+                    builder.AppendLine(validationError+"\n");
+                }
+            }
+            return builder.ToString();
+        }
         internal void RefreshMainUIComboboxes(ComboBox currentModLoadedFilesCenterViewComboBox, ComboBox loadedModsCenterViewComboBox, ComboBox loadedModsSearchViewComboBox)
         {
             currentModLoadedFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(Properties.Settings.Default.ModTagSetting, Properties.Settings.Default.ModTagSetting + "_"));
@@ -342,8 +375,8 @@ namespace SevenDaysToDieModCreator.Controllers
                 if (xmlObjectsListWrapper == null)
                 {
                     MessageBox.Show(
-                        "The was an error in the file for " + Properties.Settings.Default.ModTagSetting + "_" + wrapperKey + ".\n\n" +
-                        "It is probably malformed xml, to check this, switch to the mod, open the \"File\" menu and click \"Validate Mod files\".",
+                        "There was an error in the file for " + Properties.Settings.Default.ModTagSetting + "_" + wrapperKey + ".\n\n" +
+                        "It is probably malformed xml, to check this, open the \"Tools\" menu and click \"Validate Mod files\".",
                         "File Loading Error!",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);

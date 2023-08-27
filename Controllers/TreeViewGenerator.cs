@@ -1005,17 +1005,18 @@ namespace SevenDaysToDieModCreator.Controllers
                 Tag = nextObjectNode,
                 Foreground = Brushes.Purple
             };
-            nextObjectTreeViewItem.PreviewMouseDown += NewObjectTreeObjectCombo_MouseDown;
             if (nextObjectNode.Attributes != null)
             {
                 string attributesString = SetNextObjectSearchTreeViewAtrributes(nextObjectTreeViewItem, nextObjectNode.Attributes, wrapperKey, nextObjectNode);
                 onHoverStringBuilder.Append(attributesString);
             }
+            nextObjectTreeViewItem.PreviewMouseDown += NewObjectTreeObjectCombo_MouseDown;
             if (nextObjectNode.HasChildNodes)
             {
                 if (nextObjectNode.GetValidChildrenCount() > SEARCH_VIEW_SEARCH_BOX_CREATION_THRESHOLD)
                 {
                     MakeSearchTreeView(nextObjectTreeViewItem, nextObjectNode);
+                    nextObjectTreeViewItem.PreviewMouseDown -= NewObjectTreeObjectCombo_MouseDown;
                 }
                 else if (includeChildrenInOnHover) onHoverStringBuilder.Append(GetChildrenNames(nextObjectNode.ChildNodes));
 

@@ -97,6 +97,13 @@ HARD:
 +Add side by side search trees for easier comparison.
 
 Version History
+1.7.4
+- Updated the project using visual studio community and changed the repo.
+- Added support for the XUI_Common folder.
+- Added the XUI files to the file validation function.
+- Removed the auto copy from search boxes in the TreeView. Now when clicking into a search box it will not copy that value.
+- Added find and replace functionality to the Direct Edit views.
+- Fixed the already open prompt to not trigger when a window is closed.
 1.7.3
 -Removed new mod prompt when losing focus in the main app mod combo box. Making a new mod in the main app can still be accomplished by pressing enter.
 -Refined the "Already open" functionality for direct edit views. The prompt would popup when the window was not open after the first time opening.
