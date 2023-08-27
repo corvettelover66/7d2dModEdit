@@ -45,60 +45,15 @@
         </Grid>
         <Grid Grid.Row="1" Height="Auto" VerticalAlignment="Top" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="350*" />
-                <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="800*" />
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="350*" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <Grid >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" VerticalAlignment="Top" >
-                        <Grid >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="0">
-                                        <ComboBox Name="NewObjectViewLoadedFilesComboBox" HorizontalContentAlignment="Center" FontSize="20" ></ComboBox>
-                                    </Grid>
-                                    <Grid Grid.Column="1">
-                                        <CheckBox x:Name="IncludeAllModsInBoxesCheckBox" Content="Include All Mods" IsChecked="False" FontSize="16" />
-                                    </Grid>
-                                </Grid>
-
-                            </Grid>
-                            <Grid Grid.Row="1">
-                                <Button x:Name="AddObjectViewButton" Click="AddObjectView_Click" FontSize="18">Add New Object</Button>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid Grid.Row="1"  VerticalAlignment="Top">
-                        <ScrollViewer Name="NewObjectScrollView" HorizontalContentAlignment="Right"  VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
-                        </ScrollViewer>
-                    </Grid>
-                    <Grid Grid.Row="2" VerticalAlignment="Bottom" >
-                        <StackPanel>
-                            <Button x:Name="ClearAllObjectsViewButton" Click="ClearAllObjectView_Click" FontSize="18">Clear View</Button>
-                        </StackPanel>
-                    </Grid>
-                </Grid>
-            </Grid>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-            <Grid Grid.Column="2" >
+            <Grid Grid.Column="0" Height="Auto" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="5"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
@@ -164,7 +119,51 @@
                     <avalonedit:TextEditor SyntaxHighlighting="XML" x:Name="XmlOutputBox" FontSize="20">
                     </avalonedit:TextEditor>
                 </Grid>
-                <Grid Grid.Row="2" VerticalAlignment="Bottom">
+                <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" />
+                <Grid Grid.Row="3">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" VerticalAlignment="Top" >
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0">
+                                            <ComboBox Name="NewObjectViewLoadedFilesComboBox" HorizontalContentAlignment="Center" FontSize="20" ></ComboBox>
+                                        </Grid>
+                                        <Grid Grid.Column="1">
+                                            <CheckBox x:Name="IncludeAllModsInBoxesCheckBox" Content="Include All Mods" IsChecked="False" FontSize="16" />
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Button x:Name="AddObjectViewButton" Click="AddObjectView_Click" FontSize="18">Add New Object</Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1"  VerticalAlignment="Top">
+                            <ScrollViewer Name="NewObjectScrollView" HorizontalContentAlignment="Right"  VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
+                            </ScrollViewer>
+                        </Grid>
+                        <Grid Grid.Row="2" VerticalAlignment="Bottom" >
+                            <StackPanel>
+                                <Button x:Name="ClearAllObjectsViewButton" Click="ClearAllObjectView_Click" FontSize="18">Clear View</Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="4" VerticalAlignment="Bottom">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -197,11 +196,12 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" />
-            <Grid Grid.Column="4">
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="193*"></RowDefinition>
+                    <RowDefinition Height="17*"/>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
@@ -246,11 +246,11 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="1" VerticalAlignment="Top">
+                <Grid VerticalAlignment="Top" Margin="0,121,0,0" Grid.RowSpan="2">
                     <ScrollViewer Name="SearchObjectScrollViewer" HorizontalContentAlignment="Right" HorizontalScrollBarVisibility="Auto">
                     </ScrollViewer>
                 </Grid>
-                <Grid Grid.Row="2" VerticalAlignment="Bottom">
+                <Grid Grid.Row="3" VerticalAlignment="Center">
                     <StackPanel>
                         <Button x:Name="ClearTreesViewButton" Click="ClearAllTreesView_Click" FontSize="18" Content="Clear View"/>
                     </StackPanel>
