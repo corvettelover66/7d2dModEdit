@@ -4,9 +4,15 @@ using SevenDaysToDieModCreator.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Shapes;
 using System.Xml;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.Design.AxImporter;
+using System.Xml.Linq;
 
 namespace SevenDaysToDieModCreator.Views
 {
@@ -23,14 +29,13 @@ namespace SevenDaysToDieModCreator.Views
             ModInfoXmlPreviewAvalonEditor.Text = "\n\n" + textBoxBody;
 
             ResetModNameComboBoxes(Properties.Settings.Default.ModTagSetting);
-            ModInfoNameBox.TextChanged += ModInfoBox_TextChanged;
-            ModInfoDescriptionBox.TextChanged += ModInfoBox_TextChanged;
-            ModInfoAuthorBox.TextChanged += ModInfoBox_TextChanged;
-            ModInfoVersionBox.TextChanged += ModInfoBox_TextChanged;
 
+
+            SetTextBoxTextChanged();
             SetTooltips();
             SetTextBoxsWithExistingModInfo();
             SetBackgroundColor();
+            CheckForLegacyFormat(this.AllTagsComboBox.Text);
             Closing += new CancelEventHandler(ModInfoDialogBox_Closing);
         }
 
@@ -54,33 +59,81 @@ namespace SevenDaysToDieModCreator.Views
         private void SetBackgroundColor()
         {
             this.Background = BackgroundColorController.GetBackgroundColor();
+
             AllTagsComboBox.Background = BackgroundColorController.GetBackgroundColor();
-            AllTagsComboBox.Resources.Add(SystemColors.WindowBrushKey, BackgroundColorController.GetBackgroundColor());
+            AllTagsComboBox.Resources.Add(System.Windows.SystemColors.WindowBrushKey, BackgroundColorController.GetBackgroundColor());
             ChangeNameAllTagsComboBox.Background = BackgroundColorController.GetBackgroundColor();
-            ChangeNameAllTagsComboBox.Resources.Add(SystemColors.WindowBrushKey, BackgroundColorController.GetBackgroundColor());
+            ChangeNameAllTagsComboBox.Resources.Add(System.Windows.SystemColors.WindowBrushKey, BackgroundColorController.GetBackgroundColor());
+
+            CurrentSelectedModTextBox.Background = BackgroundColorController.GetBackgroundColor();
+
             ModInfoNameBox.Background = BackgroundColorController.GetBackgroundColor();
             ModInfoDescriptionBox.Background = BackgroundColorController.GetBackgroundColor();
             ModInfoAuthorBox.Background = BackgroundColorController.GetBackgroundColor();
             ModInfoVersionBox.Background = BackgroundColorController.GetBackgroundColor();
+            ModInfoDisplayNameBox.Background = BackgroundColorController.GetBackgroundColor();
+            ModInfoWebsiteBox.Background = BackgroundColorController.GetBackgroundColor();
+
             ModInfoXmlPreviewAvalonEditor.Background = BackgroundColorController.GetBackgroundColor();
-            CurrentSelectedModTextBox.Background = BackgroundColorController.GetBackgroundColor();
         }
+        private void SetTextBoxTextChanged() 
+        {
+            ModInfoNameBox.TextChanged += ModInfoBox_TextChanged;
+            ModInfoDisplayNameBox.TextChanged += ModInfoBox_TextChanged;
+            ModInfoVersionBox.TextChanged += ModInfoBox_TextChanged;
+            ModInfoDescriptionBox.TextChanged += ModInfoBox_TextChanged;
+            ModInfoAuthorBox.TextChanged += ModInfoBox_TextChanged;
+            ModInfoWebsiteBox.TextChanged += ModInfoBox_TextChanged;
+        }
+
+        private void SetTooltips()
+        {
+            ModInfoNameBox.AddToolTip("Name\n(Required)Internal name, like an ID, of the mod.Should be globally unique,\nlike an author prefix + name.Only allowed chars: Numbers, latin letters, underscores, dash");
+            ModInfoDisplayNameBox.AddToolTip("Display Name\n(Required)Name used for display purposes, like shown in the mods UI at some point.\nCould be the same as you would later on use on workshop or wherever mods get distributed.");
+            ModInfoVersionBox.AddToolTip("Version\n(Required)SemVer version of the mod. Has to be in the format major.minor[.build[.revision]]\n(i.e.build and revision can be left out, recommend using them though as typically done with Semantic Versioning)");
+            ModInfoDescriptionBox.AddToolTip("Description\n(Optional)More text to show on UIs.");
+            ModInfoAuthorBox.AddToolTip("Author\n(Optional)Name(s) of the author(s).");
+            ModInfoWebsiteBox.AddToolTip("Website\n(Optional)URL of a website of the mod");
+
+            AllTagsComboBox.AddToolTip("This is the selected mod. This is also used as the directory name and tag for the mod.\nThe mod selected here is what will be updated on save.");
+            ChangeNameAllTagsComboBox.AddToolTip("Any values placed here can be used to either create a new mod or change the selected mod by clicking the appropriate button.");
+            
+            ModInfoXmlPreviewAvalonEditor.AddToolTip("This is just a preview of the ModInfo.xml file, direct changes here cannot be saved.");
+            
+            ChangeModNameButton.AddToolTip("Click here to change the name of the selected mod using the value provided in the box just to the left.\n\nThis will also automatically replace old top tags with the new one. ");
+            OkButton.AddToolTip("Click here to save all changes to the current selected mod or a new mod");
+           
+            UpdateAllModInfoMenuItem.AddToolTip("Click here to update all Mods' ModInfo.xml from the Legacy format.");
+        }
+        private void CheckForLegacyFormat(string modName) 
+        {
+            if(ModInfo.ModInfoFileFormat(modName) == ModInfo.MOD_INFO_FORMAT.LEGACY_FORMAT) 
+            {
+                string message = "The current selected ModInfo.xml is in the legacy format. Update using the fields below and click Save.\nAlternatively, you can update the ModInfo.xml for all mods loaded by clicking Tools -> Update All Mod Info";
+                MessageBox.Show(message, "Legacy Format", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
         private void AllTagsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ModSelectionChanged();
-            ModInfo newModInfo = new ModInfo(ModInfoNameBox.Text, ModInfoDescriptionBox.Text, ModInfoAuthorBox.Text, ModInfoVersionBox.Text);
-            ModInfoXmlPreviewAvalonEditor.Text = newModInfo.ToString();
+            ModInfoXmlPreviewAvalonEditor.Text = getNewModInfoFromTextBoxes().ToString();
+            CheckForLegacyFormat(this.AllTagsComboBox.Text);
         }
         private void AllTagsComboBox_DropDownClosed(object sender, EventArgs e)
         {
             ModSelectionChanged();
-            ModInfo newModInfo = new ModInfo(ModInfoNameBox.Text, ModInfoDescriptionBox.Text, ModInfoAuthorBox.Text, ModInfoVersionBox.Text);
-            ModInfoXmlPreviewAvalonEditor.Text = newModInfo.ToString();
+            ModInfoXmlPreviewAvalonEditor.Text = getNewModInfoFromTextBoxes().ToString();
+            CheckForLegacyFormat(this.AllTagsComboBox.Text);
         }
         private void ModInfoBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ModInfo newModInfo = new ModInfo(ModInfoNameBox.Text, ModInfoDescriptionBox.Text, ModInfoAuthorBox.Text, ModInfoVersionBox.Text);
-            ModInfoXmlPreviewAvalonEditor.Text = newModInfo.ToString();
+            ModInfoXmlPreviewAvalonEditor.Text = getNewModInfoFromTextBoxes().ToString();
+        }
+
+        private ModInfo getNewModInfoFromTextBoxes() 
+        {
+            return new ModInfo(ModInfoNameBox.Text, ModInfoDisplayNameBox.Text, ModInfoDescriptionBox.Text, ModInfoAuthorBox.Text, ModInfoVersionBox.Text, ModInfoWebsiteBox.Text);
         }
 
         private void ModSelectionChanged()
@@ -98,16 +151,20 @@ namespace SevenDaysToDieModCreator.Views
             if (currentModInfo.ModInfoExists)
             {
                 ModInfoNameBox.Text = currentModInfo.Name;
+                ModInfoDisplayNameBox.Text = currentModInfo.DisplayName;
                 ModInfoDescriptionBox.Text = currentModInfo.Description;
                 ModInfoAuthorBox.Text = currentModInfo.Author;
                 ModInfoVersionBox.Text = currentModInfo.Version;
+                ModInfoWebsiteBox.Text = currentModInfo.Website;
             }
             else 
             {
                 ModInfoNameBox.Text = "";
+                ModInfoDisplayNameBox.Text = "";
                 ModInfoDescriptionBox.Text = "";
                 ModInfoAuthorBox.Text = "";
                 ModInfoVersionBox.Text = "";
+                ModInfoWebsiteBox.Text = "";
             }
         }
         private bool VerifyTagNameCorrectness(string nameToVerify, bool showMessageBox = true) 
@@ -137,18 +194,6 @@ namespace SevenDaysToDieModCreator.Views
                 isTagCorrect = false;
             }
             return isTagCorrect;
-        }
-        private void SetTooltips()
-        {
-            AllTagsComboBox.AddToolTip("This is the selected mod. This is also used as the directory name and tag for the mod.\nThe mod selected here is what will be updated on save.");
-            ModInfoNameBox.AddToolTip("Name\nThis is the name used in the ModInfo.xml file and the name of the mod seen in game.");
-            ModInfoDescriptionBox.AddToolTip("Description\nThis is the description used in the ModInfo.xml file.");
-            ModInfoAuthorBox.AddToolTip("Author\nThis is the Author for the mod, placed in the ModInfo.xml file.");
-            ModInfoVersionBox.AddToolTip("Version\nThis is the current mod's version used in the ModInfo.xml file and the version seen in game.");
-            ChangeModNameButton.AddToolTip("Click here to change the name of the selected mod using the value provided in the box just to the left.\n\nThis will also automatically replace old top tags with the new one. ");
-            ChangeNameAllTagsComboBox.AddToolTip("Any values placed here can be used to either create a new mod or change the selected mod by clicking the appropriate button.");
-            ModInfoXmlPreviewAvalonEditor.AddToolTip("This is just a preview of the ModInfo.xml file, direct changes here cannot be saved.");
-            OkButton.AddToolTip("Click here to save all changes to the current selected mod or a new mod");
         }
         private void SaveButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -188,7 +233,7 @@ namespace SevenDaysToDieModCreator.Views
         private void SaveModInfo(string modNameToUse)
         {
             ModInfo.CreateModInfoFile(modNameToUse);
-            ModInfo newModIfo = new ModInfo(ModInfoNameBox.Text, ModInfoDescriptionBox.Text, ModInfoAuthorBox.Text, ModInfoVersionBox.Text);
+            ModInfo newModIfo = getNewModInfoFromTextBoxes();
             string modInfoXmlOut = newModIfo.ToString();
             bool didSucceed = XmlFileManager.WriteStringToFile(XmlFileManager.Get_ModDirectoryOutputPath(modNameToUse), ModInfo.MOD_INFO_FILE_NAME, modInfoXmlOut);
             if (didSucceed)
@@ -196,7 +241,7 @@ namespace SevenDaysToDieModCreator.Views
                 MessageBox.Show("Saved mod info for " + modNameToUse + ".", "Saving Mod info", MessageBoxButton.OK, MessageBoxImage.Information);
                 ResetModNameComboBoxes(modNameToUse);
                 SetTextBoxsWithExistingModInfo();
-                ModInfo newModInfo = new ModInfo(ModInfoNameBox.Text, ModInfoDescriptionBox.Text, ModInfoAuthorBox.Text, ModInfoVersionBox.Text);
+                ModInfo newModInfo = getNewModInfoFromTextBoxes();
                 ModInfoXmlPreviewAvalonEditor.Text = newModInfo.ToString();
             }
             else 
@@ -205,7 +250,7 @@ namespace SevenDaysToDieModCreator.Views
                     "Save Mod Info Failed", MessageBoxButton.OK, MessageBoxImage.Error);
                 ResetModNameComboBoxes(modNameToUse);
                 SetTextBoxsWithExistingModInfo();
-                ModInfo newModInfo = new ModInfo(ModInfoNameBox.Text, ModInfoDescriptionBox.Text, ModInfoAuthorBox.Text, ModInfoVersionBox.Text);
+                ModInfo newModInfo = getNewModInfoFromTextBoxes();
                 ModInfoXmlPreviewAvalonEditor.Text = newModInfo.ToString();
             }
         }
@@ -230,6 +275,17 @@ namespace SevenDaysToDieModCreator.Views
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void UpdateAllModInfoMenuItem_Click(object sender, RoutedEventArgs e) 
+        {
+            foreach (var item in AllTagsComboBox.Items)
+            {
+                string nextMod = item.ToString();
+                if (string.IsNullOrEmpty(nextMod.Trim())) continue;
+                ModInfo.CreateModInfoFile(nextMod);
+                ModInfo newModIfo = new ModInfo(nextMod);
+                XmlFileManager.WriteStringToFile(XmlFileManager.Get_ModDirectoryOutputPath(nextMod), ModInfo.MOD_INFO_FILE_NAME, newModIfo.ToString());
+            }
         }
 
         private void ChangeModTagButton_Click(object sender, RoutedEventArgs e)

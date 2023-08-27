@@ -8,12 +8,22 @@
         Height="Auto" Width="Auto">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="26"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" VerticalAlignment="Top">
+            <DockPanel>
+                <Menu DockPanel.Dock="Top" FontSize="16">
+                    <MenuItem Header="_Tools">
+                        <MenuItem Header="_Update All Mod Info" Name="UpdateAllModInfoMenuItem" Click="UpdateAllModInfoMenuItem_Click" />
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+        </Grid>
+        <Grid Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -52,7 +62,7 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -66,7 +76,7 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -78,7 +88,7 @@
                 <Label Name="ModInfoXmlPreviewLabel" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" Content="PREVIEW"></Label>
             </Grid>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -86,9 +96,11 @@
             <Grid Grid.Column="0">
                 <StackPanel Name="CustomDialogStackPanel" VerticalAlignment="Top" >
                     <TextBox x:Name="ModInfoNameBox" FontSize="20" Text="Name" TextWrapping="Wrap"/>
+                    <TextBox x:Name="ModInfoDisplayNameBox" FontSize="20" Text="Display Name" TextWrapping="Wrap"/>
+                    <TextBox x:Name="ModInfoVersionBox" FontSize="20"  Text="Version" />
                     <TextBox x:Name="ModInfoDescriptionBox" FontSize="20" Text="Description" AcceptsReturn="True" TextWrapping="Wrap"/>
                     <TextBox x:Name="ModInfoAuthorBox" FontSize="20" Text="Author" />
-                    <TextBox x:Name="ModInfoVersionBox" FontSize="20"  Text="Version" />
+                    <TextBox x:Name="ModInfoWebsiteBox" FontSize="20" Text="Website" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="1">
