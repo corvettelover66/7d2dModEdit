@@ -101,6 +101,7 @@ Version History
 - Updated the project using visual studio community and changed the repo.
 - Added support for the XUI_Common folder.
 - Added the XUI files to the file validation function.
+- Ignore the Localization.txt when running the validate files function.
 - Removed the auto copy from search boxes in the TreeView. Now when clicking into a search box it will not copy that value.
 - Added find and replace functionality to the Direct Edit views.
 - Fixed the already open prompt to not trigger when a window is closed.
