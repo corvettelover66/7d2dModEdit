@@ -35,7 +35,7 @@ namespace SevenDaysToDieModCreator.Views
 
         void OnLoad(object sender, RoutedEventArgs e)
         {
-            CheckForLegacyFormat();
+            if(!string.IsNullOrEmpty(this.CurrentSelectedModTextBox.Text))CheckForLegacyFormat();
         }
 
         private void SetupLegacyFormatSetting()
