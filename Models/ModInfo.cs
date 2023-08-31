@@ -2,15 +2,13 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace SevenDaysToDieModCreator.Models
 {
     class ModInfo
     {
-
-        public bool ModInfoExists { get; private set; }
-
         private const string MOD_INFO_NAME_TAG = "Name";
         private const string MOD_INFO_DISPLAY_NAME_TAG = "Name";
         private const string MOD_INFO_DESCRIPTION_TAG = "Description";
@@ -20,8 +18,20 @@ namespace SevenDaysToDieModCreator.Models
 
         public static string MOD_INFO_FILE_NAME = "ModInfo.xml";
 
-        public ModInfo(string modName) 
+        public bool ModInfoExists { get; private set; }
+        public string Name { get; private set; }
+        public string DisplayName { get; private set; }
+        public string Description { get; private set; }
+        public string Author { get; private set; }
+        public string Version { get; private set; }
+        public string Website { get; private set; }
+
+        private bool UseLegacyFormat;
+
+        public ModInfo(string modName, bool useLegacyFormat)
         {
+            UseLegacyFormat = useLegacyFormat;
+            DisplayName = modName;
             string modInfoFilePath = Path.Combine(XmlFileManager.Get_ModDirectoryOutputPath(modName), MOD_INFO_FILE_NAME);
             if (File.Exists(modInfoFilePath))
             {
@@ -34,8 +44,9 @@ namespace SevenDaysToDieModCreator.Models
                 }
             }
         }
-        public ModInfo(string name, string displayName, string description, string author, string version, string website)
+        public ModInfo(bool useLegacyFormat, string name, string displayName, string description, string author, string version, string website)
         {
+            UseLegacyFormat = useLegacyFormat;
             Name = name;
             DisplayName = displayName;
             Description = description;
@@ -92,23 +103,78 @@ namespace SevenDaysToDieModCreator.Models
                 File.Create(modInfoFilePath);
             }
         }
-        public bool AllFieldsValid() 
+
+        public bool AllFieldsValid()
         {
-            // Check name:
-            // Only allowed chars: Numbers, latin letters, underscores, dash
-            // Check display name:
-            // Required
-            // Check Version:
-            // major.minor[.build[.revision]] build and revision can be left out.
-            return false;
+            return ValidName(out _) && ValidDisplayName(out string _) && ValidVersion(out string _); ;
         }
 
-        public string Name { get; private set; }
-        public string DisplayName { get; private set; }
-        public string Description { get; private set; }
-        public string Author { get; private set; }
-        public string Version { get; private set; }
-        public string Website { get; private set; }
+        public bool AllFieldsValid(out string errorMessage) 
+        {
+            StringBuilder builder = new StringBuilder();
+
+            bool valid = ValidName(out string nameErrorMessage);
+            builder.AppendLine(nameErrorMessage);
+
+            valid = ValidDisplayName(out string displapNameErrorMessage) && valid;
+            builder.AppendLine(displapNameErrorMessage);
+
+            valid = ValidVersion(out string versionErrorMessage) && valid;
+            builder.AppendLine(versionErrorMessage);
+            errorMessage = builder.ToString();
+            return valid;
+        }
+
+        public bool ValidName(out string errorMessage)
+        {
+            errorMessage = string.Empty;
+            if (Name.Length == 0)
+            {
+                errorMessage = "Name is required.";
+                return false;
+            }
+            var nameRegex = new Regex(@"^[0-9, A-Z, a-z, _, -]+$");
+
+            if (!nameRegex.IsMatch(Name))
+            {
+                errorMessage = "Name can only contain numbers, latin letters, dashes and underscores.";
+                return false;
+            }
+            errorMessage.Trim();
+            return true;
+        }
+
+        public bool ValidDisplayName(out string errorMessage)
+        {
+            if (string.IsNullOrEmpty(DisplayName.Trim()))
+            {
+                errorMessage = "Display Name is required.";
+                return false;
+            }
+
+            errorMessage = "";
+            return true;
+        }
+
+        public bool ValidVersion(out string errorMessage)
+        {
+            errorMessage= string.Empty;
+            if (string.IsNullOrEmpty(Version.Trim()))
+            {
+                errorMessage = "Version is required.";
+                return false;
+            }
+            var versionRegex = new Regex(@"^(?:(\d+))(?:\.(\d+))(?:\.(\d+))?(?:\.(\*|\d+))?$");
+
+            if (!versionRegex.IsMatch(Version))
+            {
+                errorMessage = "Version must be in the format major.minor[.build[.revision]] with only numbers.";
+                return false;
+            }
+            errorMessage.Trim();
+            return true;
+        }
+
         public bool LoadSettingsFromFile(string modInfoFilePath, MOD_INFO_FORMAT modInfoFileFormat) 
         {
             bool didSucceed = false;
@@ -145,6 +211,27 @@ namespace SevenDaysToDieModCreator.Models
         }
         
         override public string ToString() 
+        {
+            string outputXml = UseLegacyFormat ? LegacyFormat() : VersionTwoFormat();
+            return outputXml;
+        }
+
+        private string LegacyFormat() 
+        {
+            StringBuilder modInfoBuilder = new StringBuilder();
+            modInfoBuilder.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+            modInfoBuilder.AppendLine("<xml>");
+            modInfoBuilder.AppendLine("\t<ModInfo>");
+            modInfoBuilder.AppendLine("\t\t<Name value=\"" + this.Name + "\" />");
+            modInfoBuilder.AppendLine("\t\t<Description value=\"" + this.Description + "\" />");
+            modInfoBuilder.AppendLine("\t\t<Author value=\"" + this.Author + "\" />");
+            modInfoBuilder.AppendLine("\t\t<Version value=\"" + this.Version + "\" />");
+            modInfoBuilder.AppendLine("\t</ModInfo>");
+            modInfoBuilder.AppendLine("</xml>");
+            return modInfoBuilder.ToString();
+        }
+
+        private string VersionTwoFormat()
         {
             StringBuilder modInfoBuilder = new StringBuilder();
             modInfoBuilder.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
