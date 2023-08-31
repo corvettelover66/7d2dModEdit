@@ -6,7 +6,13 @@
     <RootNamespace>_7d2dModEdit</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>7dtd_editor_icon.ico</ApplicationIcon>
+    <Version>1.7.4</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="7dtd_editor_icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.0.90" />
