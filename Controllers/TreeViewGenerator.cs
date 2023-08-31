@@ -371,7 +371,7 @@ namespace SevenDaysToDieModCreator.Controllers
         }
         private static ComboBox GetModFileAttributeComboBox(XmlObjectsListWrapper xmlObjectListWrapper, string currentTagName, string nextAttribute)
         {
-            XmlObjectsListWrapper modWrapper = MainWindowViewController.LoadedListWrappers.GetValueOrDefault(Properties.Settings.Default.ModTagSetting + "_" + xmlObjectListWrapper.GenerateDictionaryKey());
+            XmlObjectsListWrapper modWrapper = MainWindowViewController.LoadedListWrappers.GetValueOrDefault(_7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_" + xmlObjectListWrapper.GenerateDictionaryKey());
             ComboBox newModAttributesComboBox = null;
             if (modWrapper != null)
             {
@@ -552,7 +552,7 @@ namespace SevenDaysToDieModCreator.Controllers
                         newObjectFormTree.AddToolTip("Object tree for the " + senderAsMenuItem.Name + " action");
 
                         MainWindowViewController.NewObjectFormViewPanel.Children.Add(newObjectFormTree);
-                        if (Properties.Settings.Default.IgnoreAllAttributesCheckbox) 
+                        if (_7d2dModEdit.Properties.Settings.Default.IgnoreAllAttributesCheckbox) 
                         {
                             SetAllTreeViewAttributesToHidden(newObjectFormTree);
                         }

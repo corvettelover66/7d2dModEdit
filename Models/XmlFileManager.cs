@@ -10,12 +10,12 @@ namespace SevenDaysToDieModCreator.Models
         public static string AllModsOutputPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Output\\");
         public static string ModDirectoryOutputPath
         {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/", Properties.Settings.Default.ModTagSetting);
+            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/", _7d2dModEdit.Properties.Settings.Default.ModTagSetting);
             set => ModDirectoryOutputPath = value;
         }
         public static string ModConfigOutputPath
         {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/" + Properties.Settings.Default.ModTagSetting + "/Config/");
+            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/" + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "/Config/");
             set => ModConfigOutputPath = value;
         }
         public static string LoadedFilesPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Game_XMLS/");        
@@ -267,7 +267,7 @@ namespace SevenDaysToDieModCreator.Models
         }
         public static void CopyAllOutputFiles()
         {
-            string gameModDirectory = Path.Combine(Properties.Settings.Default.GameFolderModDirectory, Properties.Settings.Default.ModTagSetting);
+            string gameModDirectory = Path.Combine(_7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory, _7d2dModEdit.Properties.Settings.Default.ModTagSetting);
 
             Directory.CreateDirectory(gameModDirectory);
             Directory.CreateDirectory(ModConfigOutputPath);

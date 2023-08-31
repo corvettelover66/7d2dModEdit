@@ -88,8 +88,8 @@ namespace SevenDaysToDieModCreator.Controllers
                     if (hasXmlFiles) 
                     {
                         currentModFilesCenterViewComboBox.SetComboBox(new List<string>());
-                        Properties.Settings.Default.ModTagSetting = currentModName;
-                        Properties.Settings.Default.Save();
+                        _7d2dModEdit.Properties.Settings.Default.ModTagSetting = currentModName;
+                        _7d2dModEdit.Properties.Settings.Default.Save();
                         loadedModsSearchViewComboBox.SelectedItem = currentModName;
                         //Copy the files to the output path at Output/Mods/ModName
                         string appOutputPath = Path.Combine(XmlFileManager.AllModsOutputPath, "Mods", currentModName);
@@ -244,7 +244,7 @@ namespace SevenDaysToDieModCreator.Controllers
                     string wrapperDictionaryKey = nextModTag + "_" + wrapper.GenerateDictionaryKey();
 
                     UpdateWrapperInDictionary(wrapperDictionaryKey, wrapper);
-                    if (nextModTag.Equals(Properties.Settings.Default.ModTagSetting)) currentModLoadedFilesCenterViewComboBox.AddUniqueValueTo(wrapperDictionaryKey);
+                    if (nextModTag.Equals(_7d2dModEdit.Properties.Settings.Default.ModTagSetting)) currentModLoadedFilesCenterViewComboBox.AddUniqueValueTo(wrapperDictionaryKey);
                     if (!Directory.Exists(newOutputLocation)) Directory.CreateDirectory(newOutputLocation);
                     string parentPath = wrapper.XmlFile.ParentPath ?? "";
                     if (!File.Exists(Path.Combine(newOutputLocation, parentPath, wrapper.XmlFile.FileName)))
@@ -311,10 +311,10 @@ namespace SevenDaysToDieModCreator.Controllers
         }
         internal void RefreshMainUIComboboxes(ComboBox currentModLoadedFilesCenterViewComboBox, ComboBox loadedModsCenterViewComboBox, ComboBox loadedModsSearchViewComboBox)
         {
-            currentModLoadedFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(Properties.Settings.Default.ModTagSetting, Properties.Settings.Default.ModTagSetting + "_"));
+            currentModLoadedFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_"));
             loadedModsCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFoldersInOutput());
             loadedModsSearchViewComboBox.SetComboBox(XmlFileManager.GetCustomModFoldersInOutput());
-            loadedModsCenterViewComboBox.Text = Properties.Settings.Default.ModTagSetting;
+            loadedModsCenterViewComboBox.Text = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
         }
         internal bool DeleteModFile(string modTagSetting, string comboBoxTextUnparsed)
         {
@@ -371,11 +371,11 @@ namespace SevenDaysToDieModCreator.Controllers
             if (!String.IsNullOrEmpty(wrapperKey))
             {
                 XmlObjectsListWrapper xmlObjectsListWrapper = this.LoadedListWrappers.GetValueOrDefault(wrapperKey);
-                xmlObjectsListWrapper ??= this.LoadedListWrappers.GetValueOrDefault(Properties.Settings.Default.ModTagSetting + "_" + wrapperKey);
+                xmlObjectsListWrapper ??= this.LoadedListWrappers.GetValueOrDefault(_7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_" + wrapperKey);
                 if (xmlObjectsListWrapper == null)
                 {
                     MessageBox.Show(
-                        "There was an error in the file for " + Properties.Settings.Default.ModTagSetting + "_" + wrapperKey + ".\n\n" +
+                        "There was an error in the file for " + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_" + wrapperKey + ".\n\n" +
                         "It is probably malformed xml, to check this, open the \"Tools\" menu and click \"Validate Mod files\".",
                         "File Loading Error!",
                         MessageBoxButton.OK,

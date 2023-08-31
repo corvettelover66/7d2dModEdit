@@ -53,10 +53,10 @@ namespace SevenDaysToDieModCreator.Views
             
             string labelContents = isGameFile
                 ? "Game File: " + wrapperToUse.XmlFile.FileName + "\n"
-                : "Mod: " + Properties.Settings.Default.ModTagSetting + "\n" + "File: " + wrapperToUse.XmlFile.FileName + "\n";
+                : "Mod: " + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "\n" + "File: " + wrapperToUse.XmlFile.FileName + "\n";
             this.StartingTitle = isGameFile
                 ? "Game File: " + wrapperToUse.XmlFile.FileName
-                : wrapperToUse.XmlFile.GetFileNameWithoutExtension() + " : " + Properties.Settings.Default.ModTagSetting;
+                : wrapperToUse.XmlFile.GetFileNameWithoutExtension() + " : " + _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
 
             this.Title = StartingTitle;
 
@@ -375,7 +375,7 @@ namespace SevenDaysToDieModCreator.Views
             if (!String.IsNullOrEmpty(xmlOut))
             {
                 XmlFileManager.WriteStringToFile(Path.Combine(this.FileLocationPath, parentPath), Wrapper.XmlFile.FileName, xmlOut);
-                if (Properties.Settings.Default.AutoMoveMod) XmlFileManager.CopyAllOutputFiles();
+                if (_7d2dModEdit.Properties.Settings.Default.AutoMoveMod) XmlFileManager.CopyAllOutputFiles();
                 StartingFileContents = xmlOut;
                 this.Title = this.StartingTitle;
             }

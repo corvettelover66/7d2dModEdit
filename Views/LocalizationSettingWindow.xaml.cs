@@ -37,7 +37,7 @@ namespace SevenDaysToDieModCreator.Views
             Closing += new CancelEventHandler(LocalizatonSettingWindow_Closing);
             SetupExceptionHandling();
             AddTooltips();
-            StartingMod = Properties.Settings.Default.ModTagSetting;
+            StartingMod = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
             WindowTitle = StartingMod.ToString();
             this.Title = GetTitleForWindow();
             this.LoadedListWrappers = loadedListWrappers;
@@ -51,7 +51,7 @@ namespace SevenDaysToDieModCreator.Views
             {
                 ModSelectionComboBox.AddUniqueValueTo(nextModTag);
             }
-            ModSelectionComboBox.SelectedItem = Properties.Settings.Default.ModTagSetting;
+            ModSelectionComboBox.SelectedItem = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
 
             ModSelectionComboBox.LostFocus += ModSelectionComboBox_LostFocus;
             ModSelectionComboBox.PreviewKeyDown += ModSelectionComboBox_PreviewKeyDown;
