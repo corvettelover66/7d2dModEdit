@@ -371,7 +371,7 @@ namespace SevenDaysToDieModCreator.Controllers
         }
         private static ComboBox GetModFileAttributeComboBox(XmlObjectsListWrapper xmlObjectListWrapper, string currentTagName, string nextAttribute)
         {
-            XmlObjectsListWrapper modWrapper = MainWindowViewController.LoadedListWrappers.GetValueOrDefault(Properties.Settings.Default.ModTagSetting + "_" + xmlObjectListWrapper.GenerateDictionaryKey());
+            XmlObjectsListWrapper modWrapper = MainWindowViewController.LoadedListWrappers.GetValueOrDefault(_7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_" + xmlObjectListWrapper.GenerateDictionaryKey());
             ComboBox newModAttributesComboBox = null;
             if (modWrapper != null)
             {
@@ -554,7 +554,7 @@ namespace SevenDaysToDieModCreator.Controllers
                         newObjectFormTree.AddToolTip("Object tree for the " + senderAsMenuItem.Name + " action");
 
                         MainWindowViewController.NewObjectFormViewPanel.Children.Add(newObjectFormTree);
-                        if (Properties.Settings.Default.IgnoreAllAttributesCheckbox) 
+                        if (_7d2dModEdit.Properties.Settings.Default.IgnoreAllAttributesCheckbox) 
                         {
                             SetAllTreeViewAttributesToHidden(newObjectFormTree);
                         }
@@ -1007,17 +1007,18 @@ namespace SevenDaysToDieModCreator.Controllers
                 Tag = nextObjectNode,
                 Foreground = Brushes.Purple
             };
-            nextObjectTreeViewItem.PreviewMouseDown += NewObjectTreeObjectCombo_MouseDown;
             if (nextObjectNode.Attributes != null)
             {
                 string attributesString = SetNextObjectSearchTreeViewAtrributes(nextObjectTreeViewItem, nextObjectNode.Attributes, wrapperKey, nextObjectNode);
                 onHoverStringBuilder.Append(attributesString);
             }
+            nextObjectTreeViewItem.PreviewMouseDown += NewObjectTreeObjectCombo_MouseDown;
             if (nextObjectNode.HasChildNodes)
             {
                 if (nextObjectNode.GetValidChildrenCount() > SEARCH_VIEW_SEARCH_BOX_CREATION_THRESHOLD)
                 {
                     MakeSearchTreeView(nextObjectTreeViewItem, nextObjectNode);
+                    nextObjectTreeViewItem.PreviewMouseDown -= NewObjectTreeObjectCombo_MouseDown;
                 }
                 else if (includeChildrenInOnHover) onHoverStringBuilder.Append(GetChildrenNames(nextObjectNode.ChildNodes));
 

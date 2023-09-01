@@ -28,8 +28,8 @@ namespace SevenDaysToDieModCreator.Models
         public const string HEADER_UNUSED_ATTRIBUTES_STRING = "(*)";
         public static string GenerateXmlForObjectView(MyStackPanel newObjectFormsPanel)
         {
-            string topTag = "\n<" + Properties.Settings.Default.ModTagSetting + ">\n";
-            string topTagEnd = "</" + Properties.Settings.Default.ModTagSetting + ">\n";
+            string topTag = "\n<" + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + ">\n";
+            string topTagEnd = "</" + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + ">\n";
             string xmlOut = "";
             foreach (Control nextChild in newObjectFormsPanel.Children)
             {
@@ -45,8 +45,8 @@ namespace SevenDaysToDieModCreator.Models
         }
         public static void SaveAllGeneratedXmlToPath(MyStackPanel newObjectFormsPanel, string path, bool writeToLog = false)
         {
-            string topTag = "<" + Properties.Settings.Default.ModTagSetting + ">\n";
-            string topTagEnd = "\n</" + Properties.Settings.Default.ModTagSetting + ">\n";
+            string topTag = "<" + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + ">\n";
+            string topTagEnd = "\n</" + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + ">\n";
 
             foreach (Control nextChild in newObjectFormsPanel.Children)
             {
@@ -59,7 +59,7 @@ namespace SevenDaysToDieModCreator.Models
                     string xmlOut = xmlObjectsListWrapper == null ? "" : GenerateXmlWithWrapper(nextChildAsTree, xmlObjectsListWrapper, true);
                     if (!String.IsNullOrEmpty(xmlOut))
                     {
-                        XmlFileManager.WriteStringToFile(Path.Combine(path, parentPath), xmlObjectsListWrapper.XmlFile.FileName, topTag + xmlOut.TrimEnd() + topTagEnd, Properties.Settings.Default.DoLogTimestampOnSave);
+                        XmlFileManager.WriteStringToFile(Path.Combine(path, parentPath), xmlObjectsListWrapper.XmlFile.FileName, topTag + xmlOut.TrimEnd() + topTagEnd, _7d2dModEdit.Properties.Settings.Default.DoLogTimestampOnSave);
                     }
                     if (writeToLog && !String.IsNullOrEmpty(xmlOut)) XmlFileManager.WriteStringToLog(xmlOut, true);
                 }
@@ -95,7 +95,7 @@ namespace SevenDaysToDieModCreator.Models
                 }
             }
             string parentPath = xmlObjectsListWrapper.XmlFile.ParentPath ?? "";
-            if (includeExistingData) existingWrapperFileData = XmlFileManager.ReadExistingFile(Path.Combine(parentPath, xmlObjectsListWrapper.XmlFile.FileName), Properties.Settings.Default.ModTagSetting);
+            if (includeExistingData) existingWrapperFileData = XmlFileManager.ReadExistingFile(Path.Combine(parentPath, xmlObjectsListWrapper.XmlFile.FileName), _7d2dModEdit.Properties.Settings.Default.ModTagSetting);
             if (!String.IsNullOrEmpty(xmlOut) && !String.IsNullOrEmpty(existingWrapperFileData)) xmlOut += existingWrapperFileData;
             return xmlOut;
         }

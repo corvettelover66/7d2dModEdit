@@ -1,0 +1,114 @@
+﻿<Window x:Class="SevenDaysToDieModCreator.Views.ModInfoDialogBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Loaded="OnLoad"
+        Height="Auto" Width="Auto">
+    <Grid>
+        <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="26"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" VerticalAlignment="Top">
+                <DockPanel>
+                    <Menu DockPanel.Dock="Top" FontSize="16">
+                        <MenuItem Header="_Tools">
+                            <MenuItem Header="_Update All Mod Info V2" Name="UpdateAllModInfoMenuItem" Click="UpdateAllModInfoMenuItem_Click" />
+                        </MenuItem>
+                    </Menu>
+                </DockPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Label Content="Current Selected Mod:" FontSize="22" FontWeight="Bold"></Label>
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <TextBox x:Name="CurrentSelectedModTextBox" FontSize="22" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <StackPanel Name="FirstRowStackPanel" VerticalAlignment="Top"  Height="Auto">
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <ComboBox Name="ChangeNameAllTagsComboBox" IsEditable="True" FontFamily="Arial" FontSize="22"></ComboBox>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Button FontSize="20" x:Name="ChangeModNameButton" Content="Change Mod Name" Click="ChangeModTagButton_Click"></Button>
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <CheckBox x:Name="UseLegacyFormatCheckBox" Content="Use V1 Format" IsChecked="False" FontSize="16" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Button Name="OkButton" FontFamily="Arial" Content="_Save"  FontSize="22"  Click="SaveButton_Click" />
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Button Name="CloseButton" FontFamily="Arial" Content="_Close"  FontSize="22"  Click="CloseButton_Click" />
+                    </Grid>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Label Name="ModInfoInputFieldsLabel" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" Content="INPUT"></Label>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Label Name="ModInfoXmlPreviewLabel" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" Content="PREVIEW"></Label>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <StackPanel Name="CustomDialogStackPanel" VerticalAlignment="Top" >
+                    <TextBox x:Name="ModInfoNameBox" FontSize="20" Text="Name"/>
+                    <TextBox x:Name="ModInfoDisplayNameBox" FontSize="20" Text="Display Name"/>
+                    <TextBox x:Name="ModInfoVersionBox" FontSize="20"  Text="Version" />
+                    <TextBox x:Name="ModInfoDescriptionBox" FontSize="20" Text="Description" TextWrapping="Wrap"/>
+                    <TextBox x:Name="ModInfoAuthorBox" FontSize="20" Text="Author" />
+                    <TextBox x:Name="ModInfoWebsiteBox" FontSize="20" Text="Website" TextWrapping="Wrap" />
+                </StackPanel>
+            </Grid>
+                <Grid Grid.Column="1">
+                    <avalonedit:TextEditor SyntaxHighlighting="XML" x:Name="ModInfoXmlPreviewAvalonEditor" FontSize="20">
+                    </avalonedit:TextEditor>
+                </Grid>
+            </Grid>
+        </Grid>
+</Window>

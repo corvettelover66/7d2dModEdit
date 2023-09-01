@@ -5,7 +5,11 @@ using SevenDaysToDieModCreator.Models;
 using SevenDaysToDieModCreator.Views;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Security.Policy;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -84,8 +88,8 @@ namespace SevenDaysToDieModCreator.Controllers
                     if (hasXmlFiles) 
                     {
                         currentModFilesCenterViewComboBox.SetComboBox(new List<string>());
-                        Properties.Settings.Default.ModTagSetting = currentModName;
-                        Properties.Settings.Default.Save();
+                        _7d2dModEdit.Properties.Settings.Default.ModTagSetting = currentModName;
+                        _7d2dModEdit.Properties.Settings.Default.Save();
                         loadedModsSearchViewComboBox.SelectedItem = currentModName;
                         //Copy the files to the output path at Output/Mods/ModName
                         string appOutputPath = Path.Combine(XmlFileManager.AllModsOutputPath, "Mods", currentModName);
@@ -240,7 +244,7 @@ namespace SevenDaysToDieModCreator.Controllers
                     string wrapperDictionaryKey = nextModTag + "_" + wrapper.GenerateDictionaryKey();
 
                     UpdateWrapperInDictionary(wrapperDictionaryKey, wrapper);
-                    if (nextModTag.Equals(Properties.Settings.Default.ModTagSetting)) currentModLoadedFilesCenterViewComboBox.AddUniqueValueTo(wrapperDictionaryKey);
+                    if (nextModTag.Equals(_7d2dModEdit.Properties.Settings.Default.ModTagSetting)) currentModLoadedFilesCenterViewComboBox.AddUniqueValueTo(wrapperDictionaryKey);
                     if (!Directory.Exists(newOutputLocation)) Directory.CreateDirectory(newOutputLocation);
                     string parentPath = wrapper.XmlFile.ParentPath ?? "";
                     if (!File.Exists(Path.Combine(newOutputLocation, parentPath, wrapper.XmlFile.FileName)))
@@ -276,12 +280,41 @@ namespace SevenDaysToDieModCreator.Controllers
             }
             return wrapper;
         }
+
+        public static String ValidateModFiles(string modOutputPath, string xuiFolder = "") 
+        {
+            string modFolderDirectory = Path.Combine(modOutputPath, xuiFolder);
+            if (Directory.Exists(modFolderDirectory) == false) return "";
+
+            string[] modFiles = Directory.GetFiles(modFolderDirectory);
+            StringBuilder builder = new StringBuilder();
+            foreach (string modFile in modFiles)
+            {
+                if (modFile.EndsWith(".txt")) continue;
+                string validationError = XmlXpathGenerator.ValidateXml(XmlFileManager.ReadExistingFile(modFile));
+                builder.Append("File: ");
+                if (string.IsNullOrEmpty(xuiFolder) == false) builder.Append(xuiFolder + '/');
+                builder.Append(Path.GetFileName(modFile) + "\n");
+                //The xml is valid
+                if (validationError == null)
+                {
+                    builder.AppendLine("Valid");
+                    builder.AppendLine("");
+                }
+                else
+                {
+                    builder.AppendLine("In-Valid");
+                    builder.AppendLine(validationError+"\n");
+                }
+            }
+            return builder.ToString();
+        }
         internal void RefreshMainUIComboboxes(ComboBox currentModLoadedFilesCenterViewComboBox, ComboBox loadedModsCenterViewComboBox, ComboBox loadedModsSearchViewComboBox)
         {
-            currentModLoadedFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(Properties.Settings.Default.ModTagSetting, Properties.Settings.Default.ModTagSetting + "_"));
+            currentModLoadedFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_"));
             loadedModsCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFoldersInOutput());
             loadedModsSearchViewComboBox.SetComboBox(XmlFileManager.GetCustomModFoldersInOutput());
-            loadedModsCenterViewComboBox.Text = Properties.Settings.Default.ModTagSetting;
+            loadedModsCenterViewComboBox.Text = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
         }
         internal bool DeleteModFile(string modTagSetting, string comboBoxTextUnparsed)
         {
@@ -338,12 +371,12 @@ namespace SevenDaysToDieModCreator.Controllers
             if (!String.IsNullOrEmpty(wrapperKey))
             {
                 XmlObjectsListWrapper xmlObjectsListWrapper = this.LoadedListWrappers.GetValueOrDefault(wrapperKey);
-                xmlObjectsListWrapper ??= this.LoadedListWrappers.GetValueOrDefault(Properties.Settings.Default.ModTagSetting + "_" + wrapperKey);
+                xmlObjectsListWrapper ??= this.LoadedListWrappers.GetValueOrDefault(_7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_" + wrapperKey);
                 if (xmlObjectsListWrapper == null)
                 {
                     MessageBox.Show(
-                        "The was an error in the file for " + Properties.Settings.Default.ModTagSetting + "_" + wrapperKey + ".\n\n" +
-                        "It is probably malformed xml, to check this, switch to the mod, open the \"File\" menu and click \"Validate Mod files\".",
+                        "There was an error in the file for " + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_" + wrapperKey + ".\n\n" +
+                        "It is probably malformed xml, to check this, open the \"Tools\" menu and click \"Validate Mod files\".",
                         "File Loading Error!",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);

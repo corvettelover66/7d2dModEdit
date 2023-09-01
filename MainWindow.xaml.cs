@@ -1,4 +1,5 @@
-﻿using ICSharpCode.AvalonEdit.Search;
+﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Search;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SevenDaysToDieModCreator.Controllers;
 using SevenDaysToDieModCreator.Extensions;
@@ -98,8 +99,8 @@ namespace SevenDaysToDieModCreator
             SetUIComponentsFromProperties();
             MainWindowFileController.LoadStartingDirectory(SearchTreeLoadedFilesComboBox, NewObjectViewLoadedFilesComboBox, LoadedModFilesCenterViewComboBox, LoadedModsSearchViewComboBox, CurrentGameFilesCenterViewComboBox);
             this.LoadedModsCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFoldersInOutput());
-            this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(Properties.Settings.Default.ModTagSetting, Properties.Settings.Default.ModTagSetting + "_"));
-            this.LoadedModsCenterViewComboBox.Text = Properties.Settings.Default.ModTagSetting;
+            this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_"));
+            this.LoadedModsCenterViewComboBox.Text = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
             SetMainWindowToolTips();
             SetBackgroundFromSetting();
         }
@@ -116,13 +117,13 @@ namespace SevenDaysToDieModCreator
         {
             string xmltoWrite = XmlXpathGenerator.GenerateXmlForObjectView(NewObjectFormsPanel);
             if (!String.IsNullOrEmpty(xmltoWrite)) XmlFileManager.WriteStringToLog(xmltoWrite, true);
-            Properties.Settings.Default.IncludeChildrenSearchTreeTooltip = IncludeChildrenInOnHoverCheckBox.IsChecked.Value;
-            Properties.Settings.Default.IncludeCommentsSearchTreeTooltip = IncludeCommentsCheckBox.IsChecked.Value;
-            Properties.Settings.Default.IncludeAllModsObjectTreeAttributes = IncludeAllModsInBoxesCheckBox.IsChecked.Value;
-            Properties.Settings.Default.IgnoreAllAttributesCheckbox = IgnoreAllAttributesCheckBox.IsChecked.Value;
-            Properties.Settings.Default.IsLoadedModsCenterViewComboBoxEditable = this.LoadedModsCenterViewComboBox.IsEditable;
-            Properties.Settings.Default.IsLoadedModsSearchViewComboBoxEditable = this.LoadedModsSearchViewComboBox.IsEditable;
-            Properties.Settings.Default.Save();
+            _7d2dModEdit.Properties.Settings.Default.IncludeChildrenSearchTreeTooltip = IncludeChildrenInOnHoverCheckBox.IsChecked.Value;
+            _7d2dModEdit.Properties.Settings.Default.IncludeCommentsSearchTreeTooltip = IncludeCommentsCheckBox.IsChecked.Value;
+            _7d2dModEdit.Properties.Settings.Default.IncludeAllModsObjectTreeAttributes = IncludeAllModsInBoxesCheckBox.IsChecked.Value;
+            _7d2dModEdit.Properties.Settings.Default.IgnoreAllAttributesCheckbox = IgnoreAllAttributesCheckBox.IsChecked.Value;
+            _7d2dModEdit.Properties.Settings.Default.IsLoadedModsCenterViewComboBoxEditable = this.LoadedModsCenterViewComboBox.IsEditable;
+            _7d2dModEdit.Properties.Settings.Default.IsLoadedModsSearchViewComboBoxEditable = this.LoadedModsSearchViewComboBox.IsEditable;
+            _7d2dModEdit.Properties.Settings.Default.Save();
             //SaveExternalXaml();
         }
         private void SetupExceptionHandling()
@@ -229,21 +230,21 @@ namespace SevenDaysToDieModCreator
         }
         private void SetUIComponentsFromProperties()
         {
-            this.IncludeCommentsCheckBox.IsChecked = Properties.Settings.Default.IncludeCommentsSearchTreeTooltip;
-            this.IncludeChildrenInOnHoverCheckBox.IsChecked = Properties.Settings.Default.IncludeChildrenSearchTreeTooltip;
-            this.IncludeAllModsInBoxesCheckBox.IsChecked = Properties.Settings.Default.IncludeAllModsObjectTreeAttributes;
-            this.IgnoreAllAttributesCheckBox.IsChecked = Properties.Settings.Default.IgnoreAllAttributesCheckbox;
+            this.IncludeCommentsCheckBox.IsChecked = _7d2dModEdit.Properties.Settings.Default.IncludeCommentsSearchTreeTooltip;
+            this.IncludeChildrenInOnHoverCheckBox.IsChecked = _7d2dModEdit.Properties.Settings.Default.IncludeChildrenSearchTreeTooltip;
+            this.IncludeAllModsInBoxesCheckBox.IsChecked = _7d2dModEdit.Properties.Settings.Default.IncludeAllModsObjectTreeAttributes;
+            this.IgnoreAllAttributesCheckBox.IsChecked = _7d2dModEdit.Properties.Settings.Default.IgnoreAllAttributesCheckbox;
 
-            this.LoadedModsCenterViewComboBox.IsEditable = Properties.Settings.Default.IsLoadedModsCenterViewComboBoxEditable;
+            this.LoadedModsCenterViewComboBox.IsEditable = _7d2dModEdit.Properties.Settings.Default.IsLoadedModsCenterViewComboBoxEditable;
             this.LoadedModsCenterViewLockButton.Content = this.LoadedModsCenterViewComboBox.IsEditable ? "Lock" : "Unlock";
 
-            this.LoadedModsSearchViewComboBox.IsEditable = Properties.Settings.Default.IsLoadedModsSearchViewComboBoxEditable;
+            this.LoadedModsSearchViewComboBox.IsEditable = _7d2dModEdit.Properties.Settings.Default.IsLoadedModsSearchViewComboBoxEditable;
             this.LoadedModsSearchViewLockButton.Content = this.LoadedModsSearchViewComboBox.IsEditable ? "Lock" : "Unlock";
         }
         private void IgnoreAllAttributesCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.IgnoreAllAttributesCheckbox = IgnoreAllAttributesCheckBox.IsChecked.Value;
-            Properties.Settings.Default.Save();
+            _7d2dModEdit.Properties.Settings.Default.IgnoreAllAttributesCheckbox = IgnoreAllAttributesCheckBox.IsChecked.Value;
+            _7d2dModEdit.Properties.Settings.Default.Save();
         }
         private void LoadedModsCenterViewComboBox_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -253,10 +254,10 @@ namespace SevenDaysToDieModCreator
             {
                 if (!String.IsNullOrEmpty(customModFile))
                 {
-                    Properties.Settings.Default.ModTagSetting = customModFile;
-                    Properties.Settings.Default.Save();
+                    _7d2dModEdit.Properties.Settings.Default.ModTagSetting = customModFile;
+                    _7d2dModEdit.Properties.Settings.Default.Save();
 
-                    this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(customModFile, Properties.Settings.Default.ModTagSetting + "_"));
+                    this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(customModFile, _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_"));
                 }
             }
         }
@@ -270,10 +271,10 @@ namespace SevenDaysToDieModCreator
                 {
                     if (!String.IsNullOrEmpty(customModFile))
                     {
-                        Properties.Settings.Default.ModTagSetting = customModFile;
-                        Properties.Settings.Default.Save();
+                        _7d2dModEdit.Properties.Settings.Default.ModTagSetting = customModFile;
+                        _7d2dModEdit.Properties.Settings.Default.Save();
 
-                        this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(customModFile, Properties.Settings.Default.ModTagSetting + "_"));
+                        this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(customModFile, _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_"));
                     }
                 }
                 else
@@ -298,15 +299,15 @@ namespace SevenDaysToDieModCreator
                 case MessageBoxResult.Yes:
                     if (!String.IsNullOrEmpty(customModFile))
                     {
-                        Properties.Settings.Default.ModTagSetting = customModFile;
-                        Properties.Settings.Default.Save();
+                        _7d2dModEdit.Properties.Settings.Default.ModTagSetting = customModFile;
+                        _7d2dModEdit.Properties.Settings.Default.Save();
                         ModInfo.CreateModInfoFile(customModFile);
 
-                        this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(customModFile, Properties.Settings.Default.ModTagSetting + "_"));
+                        this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(customModFile, _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_"));
                     }
                     break;
                 case MessageBoxResult.No:
-                    this.LoadedModsCenterViewComboBox.SelectedItem = Properties.Settings.Default.ModTagSetting;
+                    this.LoadedModsCenterViewComboBox.SelectedItem = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
                     break;
             }
         }
@@ -377,9 +378,9 @@ namespace SevenDaysToDieModCreator
                         dialog.FileName +"\n\n" +
                         "This will be the directory a mod is sent to when Clicking \"Stage All\"";
                     MessageBox.Show(message, "Auto Move Directory Set", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Properties.Settings.Default.GameFolderModDirectory = dialog.FileName + "/";
-                    Properties.Settings.Default.AutoMoveDecisionMade = true;
-                    Properties.Settings.Default.Save();
+                    _7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory = dialog.FileName + "/";
+                    _7d2dModEdit.Properties.Settings.Default.AutoMoveDecisionMade = true;
+                    _7d2dModEdit.Properties.Settings.Default.Save();
                 }
             }
         }
@@ -439,7 +440,7 @@ namespace SevenDaysToDieModCreator
         }
         private void LoadedModFilesButton_Click(object sender, RoutedEventArgs e)
         {
-            this.MainWindowFileController.LoadCustomTagWrappers(Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
+            this.MainWindowFileController.LoadCustomTagWrappers(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
             this.MainWindowViewController.AddSearchTree(SearchTreeFormsPanel, LoadedModFilesSearchViewComboBox, isGameFileTree: false, includeChildrenInOnHover: IncludeChildrenInOnHoverCheckBox.IsChecked.Value, includeComments: IncludeCommentsCheckBox.IsChecked.Value);
         }
         private void LoadedModsSearchViewComboBox_DropDownClosed(object sender, EventArgs e)
@@ -465,7 +466,7 @@ namespace SevenDaysToDieModCreator
                 }
                 //Reload the modfiles box
                 this.LoadedModFilesSearchViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(modToLoad, modToLoad + "_"));
-                this.MainWindowFileController.LoadCustomTagWrappers(Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
+                this.MainWindowFileController.LoadCustomTagWrappers(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
             }
             else
             {
@@ -485,9 +486,9 @@ namespace SevenDaysToDieModCreator
         private void SaveXmlFile_Click(object sender, RoutedEventArgs e)
         {
             string autoMoveString = "";
-            if (!Properties.Settings.Default.AutoMoveDecisionMade) CheckAutoMoveProperty("You can change this setting later using the Settings menu.");
-            if (Properties.Settings.Default.AutoMoveMod) autoMoveString = "Auto move is active! This will also automatically move the files to \n" +
-                                                                                    Properties.Settings.Default.GameFolderModDirectory;
+            if (!_7d2dModEdit.Properties.Settings.Default.AutoMoveDecisionMade) CheckAutoMoveProperty("You can change this setting later using the Settings menu.");
+            if (_7d2dModEdit.Properties.Settings.Default.AutoMoveMod) autoMoveString = "Auto move is active! This will also automatically move the files to \n" +
+                                                                                    _7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory;
             MessageBoxResult result = MessageBox.Show(
                 "Saves all staged XML in the Left Object Panel to the appropriate file for the Current Mod.\n\n" +
                 "Are you sure?\n" +
@@ -499,8 +500,8 @@ namespace SevenDaysToDieModCreator
             {
                 case MessageBoxResult.Yes:
                     XmlXpathGenerator.SaveAllGeneratedXmlToPath(NewObjectFormsPanel, XmlFileManager.ModConfigOutputPath, true);
-                    if (Properties.Settings.Default.AutoMoveMod) XmlFileManager.CopyAllOutputFiles();
-                    this.MainWindowFileController.LoadCustomTagWrappers(Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
+                    if (_7d2dModEdit.Properties.Settings.Default.AutoMoveMod) XmlFileManager.CopyAllOutputFiles();
+                    this.MainWindowFileController.LoadCustomTagWrappers(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
                     this.SearchViewModSelectionPanel.Children.Remove(this.LoadedModFilesSearchViewComboBox);
                     this.SearchViewModSelectionPanel.Children.Remove(this.LoadedModFilesButton);
                     break;
@@ -559,7 +560,7 @@ namespace SevenDaysToDieModCreator
             //If it is null there is an xml issue in the mod file
             if (wrapperForDirectEditWindow == null)
             {
-                string gameFileWrapperKey = modFileXmlWrapperKey.Replace(Properties.Settings.Default.ModTagSetting + "_", "");
+                string gameFileWrapperKey = modFileXmlWrapperKey.Replace(_7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_", "");
                 //Try to grab the game file wrapper
                 gameFileWrapper = MainWindowFileController.LoadedListWrappers.GetValueOrDefault(gameFileWrapperKey);
                 //If that wrpper is null we are in trouble and the direct edit window cannot be opened and one of those xml files needs to be valid.
@@ -567,17 +568,14 @@ namespace SevenDaysToDieModCreator
                 {
                     MessageBox.Show(
                         "The was an error opening the selected file.\n\n" +
-                        "There are a couple of possible issues:\n" +
-                        "One issue can be invalid xml for the file you are trying to open. You can validate the xml using the \"Tools\" Menu Option and fix any errors in an external editor. " +
-                        "Note, after fixing any errors in the xml be sure to click the \"Reload Mods Button\" to refresh the loaded objects.\n\n" +
-                        "The other issue could be an invalid or missing game file matching the mod file you are trying to open. To fix this issue simple load the game xml file for the file you are trying to load. " +
-                        "For example, if you are trying to open the recipes.xml file for a mod, load the game recipes.xml file and this will work, even with invalid xml in your mod.",
+                        "The issue could be an invalid or missing game file matching the mod file you are trying to open. To fix this issue simple load the game xml file for the file you are trying to load. " +
+                        "For example, if you are trying to open the recipes.xml file for a mod, load the game recipes.xml file and this will work.",
                         "File Loading Error!",
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                     return;
                 }
-
+                wrapperForDirectEditWindow = gameFileWrapper;
             }
 
             List<DirectEditView> openDirectEditViews = this.OpenDirectEditWindows.GetValueOrDefault(modFileXmlWrapperKey);
@@ -603,6 +601,7 @@ namespace SevenDaysToDieModCreator
         {
             string selectedObject = CurrentGameFilesCenterViewComboBox.Text;
             if (String.IsNullOrEmpty(selectedObject)) return;
+
             //Try to grab the default wrapper
             XmlObjectsListWrapper selectedWrapper = MainWindowFileController.LoadedListWrappers.GetValueOrDefault(selectedObject);
             //If it is null there is an issue with the game file and the file has not been loaded or is invalid.
@@ -616,9 +615,10 @@ namespace SevenDaysToDieModCreator
                 string fileLocationPath = XmlFileManager.LoadedFilesPath;
                 bool isGameFile = true;
                 //Just run as normal and add it to the dictionary
-                if (openDirectEditViews == null)
+                if (openDirectEditViews == null || openDirectEditViews.Count == 0)
                 {
                     DirectEditView directEdit = new DirectEditView(selectedWrapper, selectedObject, isGameFile: isGameFile, fileLocationPath: fileLocationPath);
+                    
                     directEdit.Closed += DirectEdit_Closed;
                     directEdit.Show();
                     List<DirectEditView> newOpenDirectEditViewList = new List<DirectEditView>();
@@ -659,7 +659,7 @@ namespace SevenDaysToDieModCreator
                 if(allSameModFileOpenDirectEditViewList != null) allSameModFileOpenDirectEditViewList.Remove(senderAsDirectEditView);
                 if(allSameModFileOpenDirectEditViewList.Count == 0) this.OpenDirectEditWindows.Remove(senderAsDirectEditView.DictionaryKey);
             } 
-            string currentLoadedMod = Properties.Settings.Default.ModTagSetting;
+            string currentLoadedMod = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
             this.MainWindowFileController.LoadCustomTagWrappers(currentLoadedMod, this.LoadedModFilesCenterViewComboBox);
             this.LoadedModFilesCenterViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(currentLoadedMod, currentLoadedMod + "_"));
         }
@@ -685,12 +685,12 @@ namespace SevenDaysToDieModCreator
         }
         private void MoveFileMenuHeader_Click(object sender, RoutedEventArgs e)
         {
-            string gameModDirectory = Properties.Settings.Default.GameFolderModDirectory;
+            string gameModDirectory = _7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory;
             MessageBoxResult result = MessageBox.Show(
                 "This will copy all local files at " +
                     XmlFileManager.ModConfigOutputPath + "\n" +
                 " and replace the files at \n" +
-                Path.Combine(gameModDirectory, Properties.Settings.Default.ModTagSetting ) + "\n" +
+                Path.Combine(gameModDirectory, _7d2dModEdit.Properties.Settings.Default.ModTagSetting ) + "\n" +
                 "Are you sure?",
                 "Stage Generated XMLS",
                 MessageBoxButton.OKCancel,
@@ -701,7 +701,7 @@ namespace SevenDaysToDieModCreator
                     //User clicked move before setting the Game Mod folder
                     if (String.IsNullOrEmpty(gameModDirectory)) HandleMissingGameModDirectory();
                     //Make sure they set the Game mod directory
-                    if (!String.IsNullOrEmpty(Properties.Settings.Default.GameFolderModDirectory)) XmlFileManager.CopyAllOutputFiles();
+                    if (!String.IsNullOrEmpty(_7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory)) XmlFileManager.CopyAllOutputFiles();
                     break;
             }
         }
@@ -711,7 +711,7 @@ namespace SevenDaysToDieModCreator
         }
         private void CheckAutoMoveProperty(string appendMessage = "")
         {
-            string currentStatus = Properties.Settings.Default.AutoMoveMod ? "Activated" : "Deactived";
+            string currentStatus = _7d2dModEdit.Properties.Settings.Default.AutoMoveMod ? "Activated" : "Deactived";
             MessageBoxResult innerResult = MessageBox.Show("Would you like to change the status of the Auto Move feature?\n\n" +
                 "Current status " + currentStatus + "\n\n" +
                 "When activated, on saving, the application automatically moves all files to the Auto Move folder chosen.\n" +
@@ -722,33 +722,33 @@ namespace SevenDaysToDieModCreator
             switch (innerResult)
             {
                 case MessageBoxResult.Yes:
-                    Properties.Settings.Default.AutoMoveMod = !Properties.Settings.Default.AutoMoveMod;
+                    _7d2dModEdit.Properties.Settings.Default.AutoMoveMod = !_7d2dModEdit.Properties.Settings.Default.AutoMoveMod;
                     break;
             }
             //If the AutoMoveMod was turned on and the mod directory is not set
-            if (String.IsNullOrEmpty(Properties.Settings.Default.GameFolderModDirectory)
-                && Properties.Settings.Default.AutoMoveMod)
+            if (String.IsNullOrEmpty(_7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory)
+                && _7d2dModEdit.Properties.Settings.Default.AutoMoveMod)
             {
                 HandleMissingGameModDirectory();
-                if (String.IsNullOrEmpty(Properties.Settings.Default.GameFolderModDirectory))
+                if (String.IsNullOrEmpty(_7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory))
                 {
                     MessageBox.Show("You need to set the mod directory for this feature to work!");
                     HandleMissingGameModDirectory();
                 }
             }
-            if (!Properties.Settings.Default.AutoMoveDecisionMade) Properties.Settings.Default.AutoMoveDecisionMade = true;
-            Properties.Settings.Default.Save();
+            if (!_7d2dModEdit.Properties.Settings.Default.AutoMoveDecisionMade) _7d2dModEdit.Properties.Settings.Default.AutoMoveDecisionMade = true;
+            _7d2dModEdit.Properties.Settings.Default.Save();
         }
         private void CheckAllSettingsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string currentStatus = Properties.Settings.Default.AutoMoveMod ? "Activated" : "Deactived";
+            string currentStatus = _7d2dModEdit.Properties.Settings.Default.AutoMoveMod ? "Activated" : "Deactived";
             string autoMoveStatus = "Auto Move Status: " + currentStatus + "\n\n";
-            string currentStatusTimestampLog = Properties.Settings.Default.DoLogTimestampOnSave ? "Activated" : "Deactived";
+            string currentStatusTimestampLog = _7d2dModEdit.Properties.Settings.Default.DoLogTimestampOnSave ? "Activated" : "Deactived";
             string logTimestampStatus = "Write Time Stamp On Save: " + currentStatusTimestampLog + "\n\n";
-            string autoMoveDirectory = String.IsNullOrEmpty(Properties.Settings.Default.GameFolderModDirectory) ? "Auto Move Directory: Not Set\n\n" :
-                "Auto Move Directory: " + Properties.Settings.Default.GameFolderModDirectory + "\n\n";
-            string customTag = String.IsNullOrEmpty(Properties.Settings.Default.ModTagSetting) ? "Mod Tag: Not Set\n\n" :
-                "Mod Tag: " + Properties.Settings.Default.ModTagSetting + "\n\n";
+            string autoMoveDirectory = String.IsNullOrEmpty(_7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory) ? "Auto Move Directory: Not Set\n\n" :
+                "Auto Move Directory: " + _7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory + "\n\n";
+            string customTag = String.IsNullOrEmpty(_7d2dModEdit.Properties.Settings.Default.ModTagSetting) ? "Mod Tag: Not Set\n\n" :
+                "Mod Tag: " + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "\n\n";
 
             string messageString = autoMoveStatus + logTimestampStatus + autoMoveDirectory + customTag;
             MessageBox.Show(messageString, "All Settings", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -756,34 +756,23 @@ namespace SevenDaysToDieModCreator
         private void LoadModDirectoryMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MainWindowFileController.LoadModFolder(this.LoadedModsSearchViewComboBox, this.LoadedModsCenterViewComboBox, this.LoadedModFilesCenterViewComboBox);
-            this.LoadedModFilesSearchViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(Properties.Settings.Default.ModTagSetting, Properties.Settings.Default.ModTagSetting + "_"));
+            this.LoadedModFilesSearchViewComboBox.SetComboBox(XmlFileManager.GetCustomModFilesInOutput(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "_"));
         }
         private void ValidateXmlMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string modOutputPath = XmlFileManager.Get_ModOutputPath(Properties.Settings.Default.ModTagSetting);
-            string[] modOutputFiles = Directory.GetFiles(modOutputPath);
+            string modOutputPath = XmlFileManager.Get_ModOutputPath(_7d2dModEdit.Properties.Settings.Default.ModTagSetting);
             StringBuilder builder = new StringBuilder();
-            foreach (string modFile in modOutputFiles)
+
+            builder.Append(MainWindowFileController.ValidateModFiles(modOutputPath));
+            foreach (string xuiFolder in XmlFileManager.Xui_Folders) 
             {
-                string isInvalid = XmlXpathGenerator.ValidateXml(XmlFileManager.ReadExistingFile(modFile));
-                //The xml is valid
-                if (isInvalid == null)
-                {
-                    builder.AppendLine("File: " + Path.GetFileName(modFile));
-                    builder.AppendLine("Valid");
-                }
-                else 
-                {
-                    builder.Insert(0, isInvalid);
-                    builder.Insert(0, "File: " + Path.GetFileName(modFile) + "\n");
-                }
+                 builder.Append(MainWindowFileController.ValidateModFiles(modOutputPath,xuiFolder));
             }
             builder.Insert(0, "All files: \n");
-            builder.Insert(0, "Xml Validation for mod " + Properties.Settings.Default.ModTagSetting + "\n\n");
-            //Remove the trailing newline
-            builder.Remove(builder.Length - 2, 2);
-            MessageBox.Show(builder.ToString(), "Xml Validation", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.MainWindowFileController.LoadCustomTagWrappers(Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
+            builder.Insert(0, "Xml Validation for mod " + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "\n\n");
+
+            MessageBox.Show(builder.ToString().Trim(), "Xml Validation", MessageBoxButton.OK, MessageBoxImage.Information);
+            this.MainWindowFileController.LoadCustomTagWrappers(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
         }
         private void CreateEditModInfoMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -798,7 +787,7 @@ namespace SevenDaysToDieModCreator
         }
         private void CheckLogTimestampProperty()
         {
-            string currentStatus = Properties.Settings.Default.DoLogTimestampOnSave ? "Activated" : "Deactived";
+            string currentStatus = _7d2dModEdit.Properties.Settings.Default.DoLogTimestampOnSave ? "Activated" : "Deactived";
             MessageBoxResult innerResult = MessageBox.Show("Would you like to change the status writing a timestamp on saving?\n\n" +
                 "Current status " + currentStatus + "\n\n" +
                 "When activated, on saving, the application will write a timestamp above the generated xml.\n",
@@ -808,14 +797,14 @@ namespace SevenDaysToDieModCreator
             switch (innerResult)
             {
                 case MessageBoxResult.Yes:
-                    Properties.Settings.Default.DoLogTimestampOnSave = !Properties.Settings.Default.DoLogTimestampOnSave;
-                    Properties.Settings.Default.Save();
+                    _7d2dModEdit.Properties.Settings.Default.DoLogTimestampOnSave = !_7d2dModEdit.Properties.Settings.Default.DoLogTimestampOnSave;
+                    _7d2dModEdit.Properties.Settings.Default.Save();
                     break;
             }
         }
         private void DeleteModFileXmlViewButton_Click(object sender, RoutedEventArgs e)
         {
-            string currentModName = Properties.Settings.Default.ModTagSetting;
+            string currentModName = _7d2dModEdit.Properties.Settings.Default.ModTagSetting;
             bool didDeleteFile = MainWindowFileController.DeleteModFile(currentModName, this.LoadedModFilesCenterViewComboBox.Text);
             if (didDeleteFile) 
             {
@@ -833,27 +822,27 @@ namespace SevenDaysToDieModCreator
 
         private void NormalThemeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.IsDarkModeActive = false;
-            Properties.Settings.Default.SettingIsMediumModeActive = false;
-            Properties.Settings.Default.Save();
+            _7d2dModEdit.Properties.Settings.Default.IsDarkModeActive = false;
+            _7d2dModEdit.Properties.Settings.Default.SettingIsMediumModeActive = false;
+            _7d2dModEdit.Properties.Settings.Default.Save();
             MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
             SetBackgroundFromSetting(true);
         }
 
         private void MediumThemeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.IsDarkModeActive = false;
-            Properties.Settings.Default.SettingIsMediumModeActive = true;
-            Properties.Settings.Default.Save();
+            _7d2dModEdit.Properties.Settings.Default.IsDarkModeActive = false;
+            _7d2dModEdit.Properties.Settings.Default.SettingIsMediumModeActive = true;
+            _7d2dModEdit.Properties.Settings.Default.Save();
             MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
             SetBackgroundFromSetting(true);
         }
 
         private void DarkThemeMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.IsDarkModeActive = true;
-            Properties.Settings.Default.SettingIsMediumModeActive = false;
-            Properties.Settings.Default.Save();
+            _7d2dModEdit.Properties.Settings.Default.IsDarkModeActive = true;
+            _7d2dModEdit.Properties.Settings.Default.SettingIsMediumModeActive = false;
+            _7d2dModEdit.Properties.Settings.Default.Save();
             MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
             SetBackgroundFromSetting(true);
         }
@@ -869,7 +858,7 @@ namespace SevenDaysToDieModCreator
         private void ReloadModOutputFolderButton_Click(object sender, RoutedEventArgs e)
         {
             this.MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
-            this.MainWindowFileController.LoadCustomTagWrappers(Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
+            this.MainWindowFileController.LoadCustomTagWrappers(_7d2dModEdit.Properties.Settings.Default.ModTagSetting, this.LoadedModFilesCenterViewComboBox);
             MessageBox.Show("Succesfully reloaded the Mods in the output folder.", "Reload Mods Output", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 

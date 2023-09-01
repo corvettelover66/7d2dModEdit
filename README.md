@@ -69,7 +69,6 @@ TODO
 EASY:
 
 -Add a setting to change the search box threshold
-+Force on focus when opening a direct edit window
 +Add a checkbox to stop updates in the XmlOutputBox
 +Add a small edit text window for storing values.
 +add a file menu to delete all empty files.
@@ -101,6 +100,18 @@ HARD:
 +Add side by side search trees for easier comparison.
 
 Version History
+1.7.4
+- Updated the project using visual studio community and changed the repo.
+- Added support for the XUI_Common folder.
+- Added the XUI files to the file validation function.
+- Ignore the Localization.txt when running the validate files function.
+- Removed the auto copy from search boxes in the TreeView. Now when clicking into a search box it will not copy that value.
+- Added find and replace functionality to the Direct Edit views.
+- Fixed the already open prompt to not trigger when a window is closed.
+- Added proper validation and error messages for the new ModInfo.xml format.
+- Added a checkbox for switching between ModInfo.xml v1 and v2 formats in the Create/Edit window.
+- Added a function to automatically update all ModInfo.xml files to the new version.
+- Changed the icon to be better dicernable from the 7d2d icon.
 1.7.3
 -Removed new mod prompt when losing focus in the main app mod combo box. Making a new mod in the main app can still be accomplished by pressing enter.
 -Refined the "Already open" functionality for direct edit views. The prompt would popup when the window was not open after the first time opening.
@@ -114,7 +125,7 @@ Version History
 -Fixed bug that changed the window title for the "Direct Edit View" incorrectly, removing the mod name and leaving only the file name.
 -Changed the Mod selection boxes to be editable, making them easier to use with many mods loaded. Now you can start typing and existing mods will be auto-filled.
 - With this change comes the ability to easily create a new mod. All you need to do is type any value into the box and you will be prompted with an appropriate message.
-- With this change there are two new "Lock" buttons to the UI to toggle the typing ability of the combo boxes. These buttons are tied to properties so the last state when closing the app will be persisted.
+- With this change there are two new "Lock" buttons to the UI to toggle the typing ability of the combo boxes. These buttons are tied to Properties so the last state when closing the app will be persisted.
 -Changed when opening a direct edit view the Main Text Box in the window gets focus. This is nice for opening a direct edit window and being able to search(ctrl-f) without needed to click in to the window.
 -Fixed when adding a new mod to the output location manually and clicking reload. On selecting files and an error pops-up saying the xml is invalid. After using the tool to validate the xml you the error would disappear . This was an internal issue of the files not being loaded correctly when clicking Reload, that would happen when clicking validate. This is now fixed and clicking reload will also reload the internal map for the files that was causing the error.
 -Changed moved "Validate Mod Files" menu item to "Tools" menu. From "File" menu.
