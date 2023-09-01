@@ -430,6 +430,8 @@ namespace SevenDaysToDieModCreator
         {
             ComboBox senderAsBox = sender as ComboBox;
             string wrapperKey = senderAsBox.Text;
+            if (string.IsNullOrEmpty(wrapperKey)) return;
+
             string fileLocationPath = XmlFileManager.LoadedFilesPath;
             XmlObjectsListWrapper xmlObjectsListWrapper = this.LoadedListWrappers.GetValueOrDefault(wrapperKey);
             string parentPath = xmlObjectsListWrapper.XmlFile.ParentPath ?? "";
