@@ -1,0 +1,3 @@
+Key,File,Type,UsedInMainMenu,NoTranslate,english
+resourceWaterFilterSchematic,items,item,,,Water Filter Schematic
+resourceWaterFilterDesc,items,item,,,A component used in the crafting of a Dew Collector.  Can be unlocked with a found schematic or by reading Home Cooking Weekly magazines and reaching Food Crafting skill level 10.

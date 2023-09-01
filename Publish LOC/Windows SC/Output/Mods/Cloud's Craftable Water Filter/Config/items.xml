@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <insertBefore xpath="//item[@name='modGunBarrelExtenderSchematic']">
+    <item name="resourceWaterFilterSchematic">
+      <property name="Extends" value="schematicNoQualityMaster" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="resourceWaterFilter" />
+      <property name="Unlocks" value="resourceWaterFilter" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="resourceWaterFilter" operation="set" value="1" />
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="GiveExp" exp="250" />
+      </effect_group>
+    </item>
+  </insertBefore>
+  <append xpath="//item[@name='resourceWaterFilter']">
+    <property name="Tags" value="foodSkill" />
+    <property name="EconomicValue" value="150"></property>
+    <property name="UnlockedBy" value="craftingFood,resourceWaterFilterSchematic" />
+  </append>
+</items>

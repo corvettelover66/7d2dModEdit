@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<progression>
+  <append xpath="//crafting_skill[@name='craftingFood']/effect_group">
+    <passive_effect name="RecipeTagUnlocked" operation="base_set" level="10,100" value="1" tags="resourceWaterFilter" />
+  </append>
+</progression>

@@ -219,6 +219,7 @@ namespace SevenDaysToDieModCreator
 
             LoadedModFilesButton.Click += LoadedModFilesButton_Click;
             LoadedModFilesCenterViewComboBox.DropDownClosed += CurrentModFilesCenterViewComboBox_DropDownClosed;
+            CurrentGameFilesCenterViewComboBox.DropDownClosed += CurrentGameFilesCenterViewComboBox_DropDownClosed;
 
             LoadedModsCenterViewComboBox.PreviewKeyDown += LoadedModsCenterViewComboBox_PreviewKeyDown;
             LoadedModsCenterViewComboBox.LostFocus += LoadedModsCenterViewComboBox_LostFocus;
@@ -228,6 +229,7 @@ namespace SevenDaysToDieModCreator
             LoadedModsSearchViewComboBox.LostFocus += LoadedModsSearchViewComboBox_LostFocus;
             LoadedModFilesSearchViewComboBox.DropDownClosed += CurrentModFilesCenterViewComboBox_DropDownClosed;
         }
+
         private void SetUIComponentsFromProperties()
         {
             this.IncludeCommentsCheckBox.IsChecked = _7d2dModEdit.Properties.Settings.Default.IncludeCommentsSearchTreeTooltip;
@@ -424,6 +426,17 @@ namespace SevenDaysToDieModCreator
             string wrapperKey = senderAsBox.Text;
             this.MainWindowFileController.PreviewModFileInXmlOutput(this.XmlOutputBox, wrapperKey);
         }
+        private void CurrentGameFilesCenterViewComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            ComboBox senderAsBox = sender as ComboBox;
+            string wrapperKey = senderAsBox.Text;
+            string fileLocationPath = XmlFileManager.LoadedFilesPath;
+            XmlObjectsListWrapper xmlObjectsListWrapper = this.LoadedListWrappers.GetValueOrDefault(wrapperKey);
+            string parentPath = xmlObjectsListWrapper.XmlFile.ParentPath ?? "";
+
+            this.XmlOutputBox.Text = XmlFileManager.GetFileContents(Path.Combine(fileLocationPath, parentPath), xmlObjectsListWrapper.XmlFile.FileName);
+        }
+
         private void XmlOutputBox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (Keyboard.Modifiers != ModifierKeys.Control) return;
