@@ -89,6 +89,7 @@ namespace SevenDaysToDieModCreator
             this.XmlOutputBox.Text = openingText;
             InitializeClassObjects();
             MainWindowViewController.XmlOutputBox = this.XmlOutputBox;
+            MainWindowViewController.LockXmlOutputBoxCheckBox = this.LockXmlOutputBoxCheckBox;
             MainWindowViewController.LoadedListWrappers = this.LoadedListWrappers;
             MainWindowViewController.IncludeAllModsCheckBox = this.IncludeAllModsInBoxesCheckBox;
             SetPanels();
@@ -192,6 +193,8 @@ namespace SevenDaysToDieModCreator
             IncludeCommentsCheckBox.AddToolTip("Keeping this checked will include comments in newly generated search trees");
             IncludeAllModsInBoxesCheckBox.AddToolTip("Keeping this checked will use common attributes from all mods\nLeaving this unchecked will use the common attributes from only the selected mod file");
             IgnoreAllAttributesCheckBox.AddToolTip("Keeping this checked will flag the \"copy\" function to Hide Unused Attributes for all children automatically.");
+            LockXmlOutputBoxCheckBox.AddToolTip("Keeping this checked will lock the mod output box from updating when modifying objects in this view.\n" +
+                "WARNING: All unignored objects below will still write to the appropriate file when Clicking Save All XML.");
         }
         
         private void SetPanels()
@@ -472,6 +475,7 @@ namespace SevenDaysToDieModCreator
         }
         private void XmlOutputBoxGotKeyboardFocus_Handler(object sender, KeyboardFocusChangedEventArgs e)
         {
+            if (LockXmlOutputBoxCheckBox.IsChecked.Value) return;
             this.XmlOutputBox.Text = XmlXpathGenerator.GenerateXmlViewOutput(NewObjectFormsPanel);
         }
         private void LoadFile_Click(object sender, RoutedEventArgs e)

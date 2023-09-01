@@ -14,6 +14,8 @@ namespace SevenDaysToDieModCreator.Controllers
         public static MyStackPanel SearchTreeFormViewPanel { get; set; }
         public static MyStackPanel SearchTreeFormViewPanelTwo { get; set; }
         public static CheckBox IncludeAllModsCheckBox { get; set; }
+        public static CheckBox LockXmlOutputBoxCheckBox { get; set; }
+
         public static ICSharpCode.AvalonEdit.TextEditor XmlOutputBox { get; set; }
 
         private readonly long FILE_SIZE_THRESHOLD = 1000000;

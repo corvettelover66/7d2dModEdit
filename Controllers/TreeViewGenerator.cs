@@ -423,10 +423,12 @@ namespace SevenDaysToDieModCreator.Controllers
         }
         private static void NewAttributesComboBox_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (MainWindowViewController.LockXmlOutputBoxCheckBox.IsChecked.Value) return;
             MainWindowViewController.XmlOutputBox.Text = XmlXpathGenerator.GenerateXmlViewOutput(MainWindowViewController.NewObjectFormViewPanel);
         }
         private static void NewAttributesComboBox_DropDownClosed(object sender, EventArgs e)
         {
+            if (MainWindowViewController.LockXmlOutputBoxCheckBox.IsChecked.Value) return;
             MainWindowViewController.XmlOutputBox.Text = XmlXpathGenerator.GenerateXmlViewOutput(MainWindowViewController.NewObjectFormViewPanel);
         }
         private static void RemoveTreeNewObjectsContextMenu_Click(object sender, RoutedEventArgs e)

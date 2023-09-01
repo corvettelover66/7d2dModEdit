@@ -74,7 +74,18 @@
                                         <ComboBox Name="NewObjectViewLoadedFilesComboBox" HorizontalContentAlignment="Center" FontSize="20" ></ComboBox>
                                     </Grid>
                                     <Grid Grid.Column="1">
-                                        <CheckBox x:Name="IncludeAllModsInBoxesCheckBox" Content="Include All Mods" IsChecked="False" FontSize="16" />
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Row="0">
+                                                <CheckBox x:Name="IncludeAllModsInBoxesCheckBox" Content="Include All Mods" IsChecked="False" FontSize="16" />
+                                            </Grid>
+                                            <Grid Grid.Row="1">
+                                                <CheckBox x:Name="LockXmlOutputBoxCheckBox" Content="Lock Output Window" IsChecked="False" FontSize="16" />
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
 
