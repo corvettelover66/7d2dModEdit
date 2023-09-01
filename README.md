@@ -67,12 +67,16 @@ TODO
 - = Not Important
 
 EASY:
+
 -Add a setting to change the search box threshold
 +Force on focus when opening a direct edit window
 +Add a checkbox to stop updates in the XmlOutputBox
 +Add a small edit text window for storing values.
 +add a file menu to delete all empty files.
 ++Entity Class Search box crashes the app
++Add a save object menu context to the NewObject Main Combo Box
++
++Add a cache for search trees.
 
 MEDIUM:
 -Add a button to open xml files in an external program.
