@@ -10,15 +10,15 @@ namespace SevenDaysToDieModCreator.Models
         public static string AllModsOutputPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Output\\");
         public static string ModDirectoryOutputPath
         {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/", Properties.Settings.Default.ModTagSetting);
+            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/", _7d2dModEdit.Properties.Settings.Default.ModTagSetting);
             set => ModDirectoryOutputPath = value;
         }
         public static string ModConfigOutputPath
         {
-            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/" + Properties.Settings.Default.ModTagSetting + "/Config/");
+            get => Path.Combine(Directory.GetCurrentDirectory(), "Output/Mods/" + _7d2dModEdit.Properties.Settings.Default.ModTagSetting + "/Config/");
             set => ModConfigOutputPath = value;
         }
-        public static string LoadedFilesPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Game_XMLS/");
+        public static string LoadedFilesPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Game_XMLS/");        
         public static string[] Xui_Folders = { "XUi", "XUi_Menu", "XUi_Common" };
 
         internal static bool ReplaceTagsInModFiles(string oldCustomTag, string newCustomTag, bool replaceConfigTags = false)
@@ -109,13 +109,12 @@ namespace SevenDaysToDieModCreator.Models
             Directory.CreateDirectory(customModFilesInOutputDirectory);
             string[] allXmlsInOutputPath = Directory.GetFiles(customModFilesInOutputDirectory, "*.xml");
             AddFilesToList(allModFiles, allXmlsInOutputPath, prefix);
-            foreach (string folder in Xui_Folders)
+            foreach (string xuiFolder in Xui_Folders)
             {
-                if (Directory.Exists(Path.Combine(customModFilesInOutputDirectory, folder)))
+                if (Directory.Exists(Path.Combine(customModFilesInOutputDirectory, xuiFolder)))
                 {
-                    string[] xuiFiles = Directory.GetFiles(Path.Combine(customModFilesInOutputDirectory, folder));
-                    if (xuiFiles.Length > 0) AddFilesToList(allModFiles, xuiFiles, prefix + folder + "_");
-
+                    string[] xuiFiles = Directory.GetFiles(Path.Combine(customModFilesInOutputDirectory, xuiFolder));
+                    if (xuiFiles.Length > 0) AddFilesToList(allModFiles, xuiFiles, prefix + xuiFolder + "_");
                 }
             }
             return allModFiles;
@@ -268,7 +267,7 @@ namespace SevenDaysToDieModCreator.Models
         }
         public static void CopyAllOutputFiles()
         {
-            string gameModDirectory = Path.Combine(Properties.Settings.Default.GameFolderModDirectory, Properties.Settings.Default.ModTagSetting);
+            string gameModDirectory = Path.Combine(_7d2dModEdit.Properties.Settings.Default.GameFolderModDirectory, _7d2dModEdit.Properties.Settings.Default.ModTagSetting);
 
             Directory.CreateDirectory(gameModDirectory);
             Directory.CreateDirectory(ModConfigOutputPath);

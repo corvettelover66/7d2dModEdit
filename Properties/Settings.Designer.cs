@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SevenDaysToDieModCreator.Properties {
+namespace _7d2dModEdit.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -176,6 +176,18 @@ namespace SevenDaysToDieModCreator.Properties {
             }
             set {
                 this["IsLoadedModsSearchViewComboBoxEditable"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsUseLegacyFormatCheckBox {
+            get {
+                return ((bool)(this["IsUseLegacyFormatCheckBox"]));
+            }
+            set {
+                this["IsUseLegacyFormatCheckBox"] = value;
             }
         }
     }
