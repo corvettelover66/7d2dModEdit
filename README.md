@@ -74,7 +74,6 @@ EASY:
 +add a file menu to delete all empty files.
 ++Entity Class Search box crashes the app
 +Add a save object menu context to the NewObject Main Combo Box
-+
 +Add a cache for search trees.
 
 MEDIUM:
@@ -112,6 +111,7 @@ Version History
 - Added a checkbox for switching between ModInfo.xml v1 and v2 formats in the Create/Edit window.
 - Added a function to automatically update all ModInfo.xml files to the new version.
 - Changed the icon to be better dicernable from the 7d2d icon.
+- Added a checkbox to lock the mod output box from updating when working on new objects.
 1.7.3
 -Removed new mod prompt when losing focus in the main app mod combo box. Making a new mod in the main app can still be accomplished by pressing enter.
 -Refined the "Already open" functionality for direct edit views. The prompt would popup when the window was not open after the first time opening.
