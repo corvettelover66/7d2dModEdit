@@ -133,6 +133,7 @@ namespace SevenDaysToDieModCreator.Models
                 errorMessage = "Name is required.";
                 return false;
             }
+            // This is the game regex ^[0-9a-zA-Z_\-]+$
             var nameRegex = new Regex(@"^[0-9, A-Z, a-z, _, -]+$");
 
             if (!nameRegex.IsMatch(Name))
