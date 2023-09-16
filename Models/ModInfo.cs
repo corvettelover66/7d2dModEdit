@@ -10,7 +10,7 @@ namespace SevenDaysToDieModCreator.Models
     class ModInfo
     {
         private const string MOD_INFO_NAME_TAG = "Name";
-        private const string MOD_INFO_DISPLAY_NAME_TAG = "Name";
+        private const string MOD_INFO_DISPLAY_NAME_TAG = "DisplayName";
         private const string MOD_INFO_DESCRIPTION_TAG = "Description";
         private const string MOD_INFO_AUTHOR_TAG = "Author";
         private const string MOD_INFO_VERSION_TAG = "Version";
