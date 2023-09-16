@@ -134,11 +134,11 @@ namespace SevenDaysToDieModCreator.Models
                 return false;
             }
             // This is the game regex ^[0-9a-zA-Z_\-]+$
-            var nameRegex = new Regex(@"^[0-9, A-Z, a-z, _, -]+$");
+            var nameRegex = new Regex(@"^[0-9a-zA-Z_\-]+$");
 
             if (!nameRegex.IsMatch(Name))
             {
-                errorMessage = "Name can only contain numbers, latin letters, dashes and underscores.";
+                errorMessage = "Name can only contain numbers, latin letters, dashes and underscores with no spaces.";
                 return false;
             }
             errorMessage.Trim();
