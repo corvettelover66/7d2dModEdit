@@ -99,6 +99,9 @@ HARD:
 +Add side by side search trees for easier comparison.
 
 Version History
+1.7.5
+- Bug fix: Display name was not being saved in the Create/Edit Modinfo view.
+- Bug Fix: Name regex validation string is now identical to Game regex. The only difference was the name cannot have spaces.
 1.7.4
 - Updated the project using visual studio community and changed the repo.
 - Added support for the XUI_Common folder.
