@@ -99,7 +99,11 @@ HARD:
 +Add side by side search trees for easier comparison.
 
 Version History
-1.7.5
+1.7.6
+- Bug Fix: Published the application targeting 64 bit systems. Versions 1.7.4 and 1.7.5 were published targeting 32 bit systems. This was problematic because large search trees cannot be loaded and crash the application due to memory limits.
+- Added Find/Replace functionality to the localization window.
+- Trimmed the unsaved changes popup message in the localization window.
+- 1.7.5
 - Bug fix: Display name was not being saved in the Create/Edit Modinfo view.
 - Bug Fix: Name regex validation string is now identical to Game regex. The only difference was the name cannot have spaces.
 1.7.4

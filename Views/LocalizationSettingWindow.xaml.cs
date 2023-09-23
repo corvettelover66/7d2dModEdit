@@ -70,7 +70,7 @@ namespace SevenDaysToDieModCreator.Views
             LocalizationPreviewBox.TextArea.Options = newOptions;
             LocalizationPreviewBox.Text = ModLocalizationGridUserControl.Maingrid.GridAsCSV();
             LocalizationPreviewBox.LostFocus += LocalizationPreviewBox_LostFocus;
-            SearchPanel.Install(LocalizationPreviewBox);
+            InitFindAndReplace();
             ModLocalizationScrollViewer.GotFocus += Maingrid_GotOrLostFocus;
             ModLocalizationScrollViewer.LostFocus += Maingrid_GotOrLostFocus;
 
@@ -83,6 +83,18 @@ namespace SevenDaysToDieModCreator.Views
 
             SetBackgroundColor();
         }
+        private void InitFindAndReplace()
+        {
+            FindReplace.FindReplaceMgr FRM = new FindReplace.FindReplaceMgr();
+            FRM.CurrentEditor = new FindReplace.TextEditorAdapter(LocalizationPreviewBox);
+            FRM.ShowSearchIn = false;
+            FRM.OwnerWindow = this;
+
+            CommandBindings.Add(FRM.FindBinding);
+            CommandBindings.Add(FRM.ReplaceBinding);
+            CommandBindings.Add(FRM.FindNextBinding);
+        }
+
         //
         private void SetupExceptionHandling()
         {
@@ -122,8 +134,8 @@ namespace SevenDaysToDieModCreator.Views
             {
                 if (modSelectionComboBox.Items.Contains(modSelectionComboBox.Text))
                 {
-                    string message = "You have unsaved changes below, for the localization of " + StartingMod + ".\n" +
-                        "Are you sure you want to change mods, and LOSE any work made on the current localization?";
+                    string message = "You have unsaved changes!!\n\n" +
+                        "Are you sure you want to change mods, and LOSE all changes to the current localization?";
                     string caption = "Lose Unsaved Changes";
                     MessageBoxResult results = MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question);
                     switch (results)
@@ -173,8 +185,8 @@ namespace SevenDaysToDieModCreator.Views
         {
             if (HasGridChanged()) 
             {
-                string message = "You have unsaved changes in the grid below, for the localization of " + StartingMod + ".\n" +
-                    "Are you sure you want to close the window, and LOSE any work made on the current localization?";
+                string message = "You have unsaved changes!!\n\n" +
+                    "Are you sure you want to close the window, and LOSE all changes to the current localization?";
                 string caption = "Lose Unsaved Changes";
                 MessageBoxResult results = MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question);
                 switch (results)
