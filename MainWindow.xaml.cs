@@ -554,15 +554,20 @@ namespace SevenDaysToDieModCreator
                     break;
             }
         }
+
         private void ModInfoDialogPopUp(string dialogText, string windowTitle)
         {
-            var dialog = new ModInfoDialogBox(dialogText, windowTitle);
+            ModInfoDialogBox dialog = new ModInfoDialogBox(dialogText, windowTitle);
 
-            if (dialog.ShowDialog() == true)
-            {
-                MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
-            }
+            dialog.Closed += Dialog_Closed;
+            dialog.Show();
         }
+
+        private void Dialog_Closed(object? sender, EventArgs e)
+        {
+            MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
+        }
+
         private void OpenDirectEditModXmlViewButton_Click(object sender, RoutedEventArgs e)
         {
             string modFileXmlWrapperKey = LoadedModFilesCenterViewComboBox.Text;
