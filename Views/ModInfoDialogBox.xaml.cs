@@ -25,6 +25,7 @@ namespace SevenDaysToDieModCreator.Views
 
             ResetModNameComboBoxes(_7d2dModEdit.Properties.Settings.Default.ModTagSetting);
 
+            this.ChangeNameAllTagsComboBox.DropDownClosed += AllTagsComboBox_DropDownClosed;
             SetupLegacyFormatSetting();
             SetTextBoxEvents();
             SetTooltips();
@@ -86,8 +87,9 @@ namespace SevenDaysToDieModCreator.Views
 
         private void ModInfoDialogBox_Closing(object sender, CancelEventArgs e)
         {
-            this.DialogResult = true;
+            // Would be nice to check for changes here
         }
+
         private void SetBackgroundColor()
         {
             this.Background = BackgroundColorController.GetBackgroundColor();
@@ -118,6 +120,7 @@ namespace SevenDaysToDieModCreator.Views
 
             ModInfoVersionBox.TextChanged += ModInfoBox_TextChanged;
             ModInfoVersionBox.LostFocus += ModInfoVersionBox_LostFocus;
+
             ModInfoDescriptionBox.TextChanged += ModInfoBox_TextChanged;
             ModInfoAuthorBox.TextChanged += ModInfoBox_TextChanged;
             ModInfoWebsiteBox.TextChanged += ModInfoBox_TextChanged;
@@ -254,11 +257,17 @@ namespace SevenDaysToDieModCreator.Views
             ModSelectionChanged();
             ModInfoXmlPreviewAvalonEditor.Text = getNewModInfoFromTextBoxes().ToString();
         }
+
         private void AllTagsComboBox_DropDownClosed(object sender, EventArgs e)
         {
             ModSelectionChanged();
             ModInfoXmlPreviewAvalonEditor.Text = getNewModInfoFromTextBoxes().ToString();
             CheckForLegacyFormat();
+            List<string> allCustomModsInPath = XmlFileManager.GetCustomModFoldersInOutput();
+            this.ChangeNameAllTagsComboBox.SetComboBox(allCustomModsInPath);
+            this.AllTagsComboBox.SetComboBox(allCustomModsInPath);
+            ModInfo modInfo = getNewModInfoFromTextBoxes();
+            CheckValidationFields(modInfo);
         }
         private void ModInfoBox_TextChanged(object sender, TextChangedEventArgs e)
         {
