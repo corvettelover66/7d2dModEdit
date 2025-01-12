@@ -1,4 +1,5 @@
-﻿using ICSharpCode.AvalonEdit;
+﻿using _7d2dModEdit.Views;
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Search;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SevenDaysToDieModCreator.Controllers;
@@ -617,6 +618,7 @@ namespace SevenDaysToDieModCreator
                 PromptForNewModFileDirectEditWindow(wrapperForDirectEditWindow, modFileXmlWrapperKey, fileLocationPath, isGameFile);
             }
         }
+
         private void OpenDirectEditGameXmlViewButton_Click(object sender, RoutedEventArgs e)
         {
             string selectedObject = CurrentGameFilesCenterViewComboBox.Text;
@@ -838,6 +840,19 @@ namespace SevenDaysToDieModCreator
         private void OpenLocalizationMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.MainWindowFileController.HandleLocalizationFile();
+        }
+
+        private void OpenGearsSettingMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GearModSettingWindow gearModSettingWindow = new GearModSettingWindow();
+
+            gearModSettingWindow.Closed += GearModSettingWindow_Closed;
+            gearModSettingWindow.Show();
+        }
+
+        private void GearModSettingWindow_Closed(object? sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void NormalThemeMenuItem_Click(object sender, RoutedEventArgs e)

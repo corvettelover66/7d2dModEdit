@@ -1,14 +1,12 @@
-﻿<Window x:Class="SevenDaysToDieModCreator.Views.DirectEditView"
+﻿<Window x:Class="_7d2dModEdit.Views.GearModSettingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-
-        xmlns:local="clr-namespace:SevenDaysToDieModCreator.Views"
+        xmlns:local="clr-namespace:_7d2dModEdit.Views"
         mc:Ignorable="d"
-        Title="Direct File Editor">
-
+        Title="GearModSettingWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -18,12 +16,8 @@
             <DockPanel>
                 <Menu DockPanel.Dock="Top" FontSize="20" Height="23">
                     <MenuItem Name="SaveXmlButton" Click="SaveXmlButton_Click" Header="_Save" FontSize="15"/>
-                    <MenuItem Name="ReloadFileXmlButton" Click="ReloadFileXmlButton_Click" Header="_Reload File" FontSize="15"/>
-                    <MenuItem Name="UndoAllChangesXmlButton" Click="UndoAllChangesXmlButton_Click" Header="_Undo All" FontSize="15"/>
                     <MenuItem Name="CloseButton" Click="CloseButton_Click" Header="_Close" FontSize="15"/>
                     <MenuItem Name="ValidateXmlButton" Click="ValidateXmlButton_Click" Header="_Validate" FontSize="15"/>
-                    <MenuItem Name="CodeCompletionKeysHelpButton" Click="CodeCompletionKeys_Click" Header="AC _Help" FontSize="15"/>
-                    <MenuItem Name="CombineTagsXmlButton" Click="CombineTagsXmlButton_Click" Header="Com_bine" FontSize="15" Visibility="Hidden"/>
                 </Menu>
             </DockPanel>
         </Grid>
