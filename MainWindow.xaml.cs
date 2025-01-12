@@ -1,4 +1,5 @@
-﻿using ICSharpCode.AvalonEdit;
+﻿using _7d2dModEdit.Views;
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Search;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using SevenDaysToDieModCreator.Controllers;
@@ -554,15 +555,20 @@ namespace SevenDaysToDieModCreator
                     break;
             }
         }
+
         private void ModInfoDialogPopUp(string dialogText, string windowTitle)
         {
-            var dialog = new ModInfoDialogBox(dialogText, windowTitle);
+            ModInfoDialogBox dialog = new ModInfoDialogBox(dialogText, windowTitle);
 
-            if (dialog.ShowDialog() == true)
-            {
-                MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
-            }
+            dialog.Closed += Dialog_Closed;
+            dialog.Show();
         }
+
+        private void Dialog_Closed(object? sender, EventArgs e)
+        {
+            MainWindowFileController.RefreshMainUIComboboxes(LoadedModFilesCenterViewComboBox, LoadedModsCenterViewComboBox, LoadedModsSearchViewComboBox);
+        }
+
         private void OpenDirectEditModXmlViewButton_Click(object sender, RoutedEventArgs e)
         {
             string modFileXmlWrapperKey = LoadedModFilesCenterViewComboBox.Text;
@@ -612,6 +618,7 @@ namespace SevenDaysToDieModCreator
                 PromptForNewModFileDirectEditWindow(wrapperForDirectEditWindow, modFileXmlWrapperKey, fileLocationPath, isGameFile);
             }
         }
+
         private void OpenDirectEditGameXmlViewButton_Click(object sender, RoutedEventArgs e)
         {
             string selectedObject = CurrentGameFilesCenterViewComboBox.Text;
@@ -833,6 +840,19 @@ namespace SevenDaysToDieModCreator
         private void OpenLocalizationMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.MainWindowFileController.HandleLocalizationFile();
+        }
+
+        private void OpenGearsSettingMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            GearModSettingWindow gearModSettingWindow = new GearModSettingWindow();
+
+            gearModSettingWindow.Closed += GearModSettingWindow_Closed;
+            gearModSettingWindow.Show();
+        }
+
+        private void GearModSettingWindow_Closed(object? sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void NormalThemeMenuItem_Click(object sender, RoutedEventArgs e)
